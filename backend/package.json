@@ -1,0 +1,28 @@
+{
+  "name": "fuel-ordering-system-backend",
+  "version": "1.0.0",
+  "description": "Backend for fuel ordering system application.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server",
+    "server": "nodemon server"
+  },
+  "author": "Joel V George",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-form-data": "^2.0.22",
+    "firebase-admin": "^11.5.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.3",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
