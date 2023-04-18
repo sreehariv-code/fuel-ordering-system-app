@@ -1,22 +1,32 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React, { Component, useState } from "react";
-// import { TextInput } from "react-native-web";
 import Button from "../components/Button";
 
-export class Login extends Component {
-  render() {
-    return (
-      <View style={styles.login}>
-        <Text style={styles.heading}>Sign In</Text>
-        <TextInput style={styles.input} placeholder="Username" />
-        <TextInput style={styles.input} placeholder="Password" />
-        <View style={styles.buttonSection}>
-          <Button style={styles.button} text="Login" />
-        </View>
+const Login = ({ navigation }) => {
+  return (
+    <View style={styles.login}>
+      <Text style={styles.heading}>Sign In</Text>
+      <TextInput style={styles.input} placeholder="Username" />
+      <TextInput style={styles.input} placeholder="Password" />
+      <View style={styles.buttonSection}>
+        <Button
+          style={styles.button}
+          text="Login"
+          onPress={() => {
+            navigation.push("HomeScreen");
+          }}
+        />
+        <Button
+          style={styles.button}
+          text="Register"
+          onPress={() => {
+            navigation.push("Signup");
+          }}
+        />
       </View>
-    );
-  }
-}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   login: {
@@ -43,11 +53,11 @@ const styles = StyleSheet.create({
     marginVertical: 13,
   },
   buttonSection: {
+    flex: 0.1,
+    // backgroundColor: "red",
     minWidth: 280,
-    alignSelf: "center",
-    // alignItems: "center",
-    // justifyContent: "center",
-    backgroundColor: "red",
+    flexDirection: "row",
+    justifyContent: "center",
   },
 });
 

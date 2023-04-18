@@ -2,20 +2,18 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import React, { Component } from "react";
 import Button from "../components/Button";
 
-export class Login extends Component {
-  render() {
-    return (
-      <View style={styles.login}>
-        <Text style={styles.heading}>Sign Up</Text>
-        <TextInput style={styles.input} placeholder="Username" />
-        <TextInput style={styles.input} placeholder="Password" />
-        <View style={styles.buttonSection}>
-          <Button style={styles.button} text="Register" />
-        </View>
+const Signup = () => {
+  return (
+    <View style={styles.login}>
+      <Text style={styles.heading}>Sign Up</Text>
+      <TextInput style={styles.input} placeholder="Username" />
+      <TextInput style={styles.input} placeholder="Password" />
+      <View style={styles.buttonSection}>
+        <Button style={styles.button} text="Register" />
       </View>
-    );
-  }
-}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   login: {
@@ -44,10 +42,7 @@ const styles = StyleSheet.create({
   buttonSection: {
     minWidth: 280,
     alignSelf: "center",
-    // alignItems: "center",
-    // justifyContent: "center",
-    backgroundColor: "red",
   },
 });
 
-export default SignUp;
+export default Signup;
