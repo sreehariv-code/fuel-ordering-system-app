@@ -1,24 +1,25 @@
 import React from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
 export default function Button({ text, onPress }) {
   return (
-    <Pressable style={styles.button} onPress={onPress}>
+    <TouchableOpacity style={styles.button(9)} onPress={onPress}>
       <Text style={styles.buttonText}>{text}</Text>
-    </Pressable>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  button: {
+  button: (marginRight) => ({
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: "black",
-  },
+    backgroundColor: "#333",
+    marginHorizontal: marginRight ? marginRight : 0,
+    height: 50,
+  }),
   buttonText: {
     fontSize: 16,
     lineHeight: 21,
