@@ -18,18 +18,18 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    avatar: {
-        type: String
-    },
-    location: {
-        // Add location details
-    },
-    orders: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Order'
-        }
-    ]
+    // avatar: {
+    //     type: String
+    // },
+    // location: {
+    //     // Add location details
+    // },
+    // orders: [
+    //     {
+    //         type: Schema.Types.ObjectId,
+    //         ref: 'Order'
+    //     }
+    // ]
 });
 
 const User = mongoose.models.users || mongoose.model('user', UserSchema);
