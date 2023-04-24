@@ -96,7 +96,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 })
 
 // @desc Update user profile
-// @route PUT /api/users/update-profile
+// @route PATCH /api/users/update-profile
 // @access private
 const updateUserProfile = asyncHandler(async (req, res) => {
     // Check for user
@@ -106,7 +106,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         throw new Error('User not found');
     }
 
-    const updatedUser = await User.findByIdAndUpdate(req.user.id, req.body);
+    const updates = req.body;
+    const updatedUser = await User.findByIdAndUpdate(req.user.id, { $set: updates }, { new: true });
     res.status(200).json({
         id: updatedUser.id,
         name: updatedUser.name,
