@@ -1,10 +1,10 @@
-import { ScrollView, Text, Image } from "react-native";
+import { SafeAreaView, Text, Image } from "react-native";
 
 const Profile = () => {
   return (
-    <ScrollView>
+    <SafeAreaView>
       <Text>This is Profile Page</Text>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 

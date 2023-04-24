@@ -1,10 +1,10 @@
 import React from "react";
 import { Text, View } from "react-native";
 
-const FuelCards = () => {
+const FuelCards = ({ fuelName }) => {
   return (
     <View>
-      <Text>This is a fuel card</Text>
+      <Text>{fuelName}</Text>
     </View>
   );
 };

@@ -87,45 +87,7 @@ export default function App() {
           <Stack.Screen
             name="HomeScreen"
             component={HomeScreen}
-            options={{
-              headerShadowVisible: false,
-              headerTitle: "",
-              headerStyle: {
-                padding: 100,
-                backgroundColor: "#eee",
-              },
-
-              header: () => (
-                <SafeAreaView
-                  style={{
-                    paddingTop: 60,
-                    paddingHorizontal: 15,
-                    paddingBottom: 10,
-                    backgroundColor: "#eee",
-                  }}
-                >
-                  <TouchableOpacity
-                    style={{
-                      width: 50,
-                      height: 50,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderRadius: 10,
-                    }}
-                  >
-                    <Image
-                      source={require("./assets/images/profile.jpg")}
-                      resizeMode="cover"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        borderRadius: 10,
-                      }}
-                    />
-                  </TouchableOpacity>
-                </SafeAreaView>
-              ),
-            }}
+            options={{ headerShown: false }}
           />
         </Stack.Navigator>
       </NavigationContainer>
