@@ -1,4 +1,6 @@
 import bcrypt from 'bcryptjs'
+import mongoose from 'mongoose'
+import User from './models/userModel.js'
 
 const users = [
     {
@@ -33,4 +35,33 @@ const users = [
     },
 ]
 
-export {users, }
+const orders = [
+    {
+        fuelType: 'Petrol',
+        fuelAmount: 20,
+        status: 'Pending'
+    },
+    {
+        fuelType: 'Diesel',
+        fuelAmount: 30,
+        status: 'Processing'
+    },
+    {
+        fuelType: 'CNG',
+        fuelAmount: 15.5,
+        status: 'Delivered'
+    },
+    {
+        fuelType: 'Petrol',
+        fuelAmount: 18.25,
+        status: 'Processing'
+    },
+    {
+        fuelType: 'Premium petrol',
+        fuelAmount: 12,
+        status: 'Cancelled'
+    },
+
+]
+
+export {users, orders }

@@ -3,7 +3,8 @@ import mongoose, { Schema } from 'mongoose';
 const orderSchema = mongoose.Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     fuelType: {
         type: String,
@@ -29,7 +30,7 @@ const orderSchema = mongoose.Schema({
     distributor: {
         type: Schema.Types.ObjectId,
         ref: 'Distributor',
-        required: true
+        // required: true
     },
     paymentStatus: {
         type: Boolean,
@@ -37,7 +38,7 @@ const orderSchema = mongoose.Schema({
     },
     paymentMethod: {
         type: String,
-        required: true
+        // required: true
     }
 })
 

@@ -1,8 +1,10 @@
 import jwt from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
+import Distributor from '../models/distributorModel.js'
+import Driver from '../models/driverModel.js'
 
-const isAuthorizedUser = asyncHandler(async (req, res, next) => {
+const isAuthenticatedUser = asyncHandler(async (req, res, next) => {
     let token;
     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         try {
@@ -13,8 +15,14 @@ const isAuthorizedUser = asyncHandler(async (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         // Get user from the token
-        req.user = await User.findById(decoded.id).select('-password')
-        
+        if(decoded.role === 'user')
+            req.user = await User.findById(decoded.id).select('-password')
+        else if(decoded.role === 'distributor')
+            req.user = await Distributor.findById(decoded.id).select('-password')
+        else if(decoded.role === 'driver')
+            req.user = await Driver.findById(decoded.id).select('-password')
+
+        req.role = decoded.role
         next()
         } catch(error) {
             console.log(error)
@@ -28,4 +36,18 @@ const isAuthorizedUser = asyncHandler(async (req, res, next) => {
     }
 })
 
-export { isAuthorizedUser } 
+const isAuthorizedUser = (roles) => {
+    return asyncHandler(async (req, res, next) => {
+        if(!req.user || !roles.includes(req.role)) {
+            res.status(403)
+            throw new Error('Forbidden')
+        }
+        
+        next()
+    })
+}
+
+export { 
+    isAuthenticatedUser,
+    isAuthorizedUser,
+} 
