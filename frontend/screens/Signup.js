@@ -1,15 +1,17 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import Button from "../components/Button";
+import { UserContext } from "../context/userContext/Context";
 
 const Signup = () => {
+  const { getUsers } = useContext(UserContext)
   return (
     <View style={styles.login}>
       <Text style={styles.heading}>Sign Up</Text>
       <TextInput style={styles.input} placeholder="Username" />
       <TextInput style={styles.input} placeholder="Password" />
       <View style={styles.buttonSection}>
-        <Button style={styles.button} text="Register" />
+        <Button style={styles.button} text="Register" onPress={getUsers}/>
       </View>
     </View>
   );

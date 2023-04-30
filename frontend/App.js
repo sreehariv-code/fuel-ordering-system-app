@@ -18,6 +18,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { Entypo } from "@expo/vector-icons";
 import HomeScreen from "./screens/Home/HomeScreen";
+import UserContextProvider from './context/userContext/Context'
 // function HomeScreen() {
 //   return (
 //     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -56,6 +57,7 @@ export default function App() {
 
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
+      <UserContextProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen
@@ -91,6 +93,7 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
+      </UserContextProvider>
     </View>
   );
 }
