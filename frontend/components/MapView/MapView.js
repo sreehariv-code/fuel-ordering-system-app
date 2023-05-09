@@ -5,7 +5,7 @@ import WebView from "react-native-webview";
 import mapTemplate from "../../components/MapTemplate/map-template";
 const MapView = () => {
   let webRef = undefined;
-  let [mapCenter, setMapCenter] = useState("-121.913, 37.361");
+  let [mapCenter, setMapCenter] = useState("76.2144, 10.5276");
   const run = `
       document.body.style.backgroundColor = 'blue';
       true;

@@ -1,8 +1,8 @@
 import axios from "axios";
 import { Platform } from "react-native";
 import { createContext, useReducer } from "react";
-import userContextReducer from "./ContextReducer";
-import { REQUEST, GET_USERS } from "./Types";
+import userContextReducer from "./contextReducer";
+import { REQUEST, GET_USERS } from "./types.js";
 import Constants from "expo-constants";
 
 const { manifest } = Constants;

@@ -27,6 +27,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenIUsePermission": "Allow ${PRODUCT_NAME} to use your location"
+        }
+      ]
+    ]
   }
 }

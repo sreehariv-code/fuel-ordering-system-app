@@ -2,7 +2,6 @@ import React, { Component, useState, useEffect, useCallback } from "react";
 import Login from "./screens/Login";
 import Signup from "./screens/Signup";
 import * as Font from "expo-font";
-import AppLoading from "expo-app-loading";
 import {
   View,
   Text,
@@ -18,7 +17,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { Entypo } from "@expo/vector-icons";
 import HomeScreen from "./screens/Home/HomeScreen";
-import UserContextProvider from './context/userContext/Context'
+import UserContextProvider from "./context/UserContext/context";
 // function HomeScreen() {
 //   return (
 //     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -51,48 +50,46 @@ export default function App() {
     return null;
   }
 
-  // const LoadFonts = async () => {
-  //   await useFonts();
-  // };
-
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
       <UserContextProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{
-              headerShadowVisible: false,
-              headerStyle: {
-                backgroundColor: "#eee",
-              },
-              headerTitle: "",
-              headerLeft: () => (
-                <TouchableOpacity>
-                  <Entypo name="chevron-left" size={24} color="black" />
-                </TouchableOpacity>
-              ),
-            }}
-          />
-          <Stack.Screen
-            name="Signup"
-            component={Signup}
-            options={{
-              headerShadowVisible: false,
-              headerStyle: {
-                backgroundColor: "#eee",
-              },
-            }}
-          />
-          <Stack.Screen
-            name="HomeScreen"
-            component={HomeScreen}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Login">
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{
+                headerShadowVisible: false,
+                headerShown: false,
+                // headerStyle: {
+                //   backgroundColor: "#f00",
+                // },
+
+                headerTitle: "",
+                // headerLeft: () => (
+                //   <TouchableOpacity>
+                //     <Entypo name="chevron-left" size={24} color="black" />
+                //   </TouchableOpacity>
+                // ),
+              }}
+            />
+            <Stack.Screen
+              name="Signup"
+              component={Signup}
+              options={{
+                headerShadowVisible: false,
+                headerStyle: {
+                  backgroundColor: "#eee",
+                },
+              }}
+            />
+            <Stack.Screen
+              name="HomeScreen"
+              component={HomeScreen}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
       </UserContextProvider>
     </View>
   );

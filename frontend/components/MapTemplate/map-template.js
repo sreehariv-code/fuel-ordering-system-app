@@ -24,7 +24,7 @@ export default `
             key: 'G6s10rHxiazuOmC5kNMPeyqgDmGAdezZ',
             container: 'map',
             center: [-121.913, 37.361],
-            zoom: 15
+            zoom: 45
         });
         
         map.on('dragend', function() {
