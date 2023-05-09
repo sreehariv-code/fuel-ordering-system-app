@@ -39,7 +39,7 @@ const Home = ({ navigation }) => {
     })();
   }, []);
 
-  let text = "Waiting..";
+  let text = "Waiting.";
 
   if (error) {
     text = error;
