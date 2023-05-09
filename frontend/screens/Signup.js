@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React, { Component, useContext } from "react";
 import Button from "../components/Button";
-import { UserContext } from "../context/UserContext/context";
+import { UserContext } from "../context/userContext/context";
 
 const Signup = () => {
   const { getUsers } = useContext(UserContext);
