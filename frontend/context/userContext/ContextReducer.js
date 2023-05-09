@@ -1,4 +1,4 @@
-import { REQUEST, GET_USERS } from "./types.js";
+import { REQUEST, GET_USERS } from "./Types.js";
 
 const userContextReducer = (state, action) => {
   let newState = {};
