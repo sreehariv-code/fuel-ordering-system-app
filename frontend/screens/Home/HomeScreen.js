@@ -21,7 +21,7 @@ const HomeScreen = () => {
   const Stack = createNativeStackNavigator();
 
   return (
-    <>
+    <SafeAreaView>
       <Tab.Navigator>
         <Tab.Screen
           name="Home"
@@ -49,7 +49,7 @@ const HomeScreen = () => {
         />
       </Tab.Navigator>
       <StatusBar />
-    </>
+    </SafeAreaView>
   );
 };
 

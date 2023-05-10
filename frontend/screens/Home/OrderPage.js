@@ -1,11 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { SafeAreaView, View, Text, StyleSheet } from "react-native";
 
 const OrderPage = () => {
   return (
-    <View>
+    <SafeAreaView>
       <Text>ORder Page</Text>
-    </View>
+    </SafeAreaView>
   );
 };
 

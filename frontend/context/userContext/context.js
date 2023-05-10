@@ -44,7 +44,6 @@ const UserContextProvider = ({ children }) => {
       console.log(err.message);
     }
   };
-  console.log(getUsers);
 
   return (
     <UserContext.Provider value={{ userState, getUsers }}>
