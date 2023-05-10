@@ -3,7 +3,7 @@ import { SafeAreaView, View, Text, StyleSheet } from "react-native";
 
 const OrderPage = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <Text>ORder Page</Text>
     </SafeAreaView>
   );
