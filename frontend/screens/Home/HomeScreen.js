@@ -21,7 +21,7 @@ const HomeScreen = () => {
   const Stack = createNativeStackNavigator();
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <Tab.Navigator>
         <Tab.Screen
           name="Home"
