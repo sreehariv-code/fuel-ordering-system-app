@@ -5,7 +5,7 @@ import Profilebtn from "../Profilebtn";
 const Welcome = ({ navigation }) => {
   return (
     <View style={styles.welcomeContainer}>
-      <Profilebtn />
+      <Profilebtn navigation={navigation} />
       <View style={styles.usernameContainer}>
         <Text style={styles.username}>Welcome, User</Text>
       </View>

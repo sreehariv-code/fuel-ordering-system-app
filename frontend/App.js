@@ -55,33 +55,21 @@ export default function App() {
     <View style={styles.container} onLayout={onLayoutRootView}>
       <UserContextProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login">
+          <Stack.Navigator initialRouteName="Login" >
             <Stack.Screen
               name="Login"
               component={Login}
               options={{
                 headerShadowVisible: false,
                 headerShown: false,
-                // headerStyle: {
-                //   backgroundColor: "#f00",
-                // },
-
                 headerTitle: "",
-                // headerLeft: () => (
-                //   <TouchableOpacity>
-                //     <Entypo name="chevron-left" size={24} color="black" />
-                //   </TouchableOpacity>
-                // ),
               }}
             />
             <Stack.Screen
               name="Signup"
               component={Signup}
               options={{
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: "#eee",
-                },
+                headerShown: false,
               }}
             />
             <Stack.Screen

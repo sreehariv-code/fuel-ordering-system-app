@@ -37,7 +37,7 @@ const Home = ({ navigation }) => {
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
     })();
-  }, []);
+  }, [text]);
 
   let text = "Waiting.";
 
@@ -50,6 +50,7 @@ const Home = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1, paddingTop: 10 }}>
       <View>
         <Welcome navigation={navigation} />
+
         <View style={styles.fuelSelectContainer}>
           <MapView />
           <Text>{text}</Text>

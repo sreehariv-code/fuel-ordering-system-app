@@ -10,10 +10,15 @@ import {
 
 import ProfileImg from "../constants/constants";
 
-const Profilebtn = ({ navigateTo }) => {
+const Profilebtn = ({ navigation }) => {
   return (
     <View>
-      <TouchableOpacity style={styles.profileBtn}>
+      <TouchableOpacity
+        style={styles.profileBtn}
+        onPress={() => {
+          navigation.navigate("Profile");
+        }}
+      >
         <Image
           source={ProfileImg}
           resizeMode="cover"
