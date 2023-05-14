@@ -69,7 +69,6 @@ const UserContextProvider = ({ children }) => {
         { name, email, password, phoneNumber },
         config
       );
-      console.log(res);
       await AsyncStorage.setItem("@token", res.data.token);
     } catch (err) {
       console.log(err);
@@ -116,7 +115,7 @@ const UserContextProvider = ({ children }) => {
       try {
         await AsyncStorage.setItem("@token", res.data.token);
       } catch (err) {
-        console.log("Coundn't set item");
+        console.log("Couldn't set item");
       }
     } catch (error) {
       console.log(error.message);

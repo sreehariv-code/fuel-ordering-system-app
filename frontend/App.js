@@ -1,33 +1,15 @@
-import React, {
-  Component,
-  useState,
-  useEffect,
-  useCallback,
-  useContext,
-} from "react";
+import React, { useCallback } from "react";
 
-import * as Font from "expo-font";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  SafeAreaView,
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import UserContextProvider from "./context/userContext/context";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import Routes from "./routes/routes";
 
 //Keep the splash screen visible while we fetch the resources
 SplashScreen.preventAutoHideAsync();
-
-const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({

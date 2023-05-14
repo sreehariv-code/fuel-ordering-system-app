@@ -9,7 +9,6 @@ import { UserContext } from "../context/userContext/context";
 
 const Routes = () => {
   const { token } = useContext(UserContext);
-  console.log(token);
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>

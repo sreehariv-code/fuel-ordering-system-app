@@ -1,16 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
-import {
-  Platform,
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  Image,
-  StatusBar,
-} from "react-native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Platform } from "react-native";
 
 import Home from "./Home";
 import Profile from "./Profile";
