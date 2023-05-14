@@ -1,19 +1,35 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
-import React, { Component, useState } from "react";
+import React, { Component, useContext, useState } from "react";
 import Button from "../components/Button";
+import { UserContext } from "../context/userContext/context";
 
 const Login = ({ navigation }) => {
+  const { loginUser, token } = useContext(UserContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <View style={styles.login}>
       <Text style={styles.heading}>Sign In</Text>
-      <TextInput style={styles.input} placeholder="Username" />
-      <TextInput style={styles.input} placeholder="Password" />
+      <TextInput
+        onChangeText={(e) => setEmail(e)}
+        style={styles.input}
+        placeholder="Username"
+        keyboardType="email-address"
+      />
+      <TextInput
+        onChangeText={(e) => setPassword(e)}
+        textContentType="password"
+        style={styles.input}
+        placeholder="Password"
+        secureTextEntry={true}
+      />
       <View style={styles.buttonSection}>
         <Button
           style={styles.button}
           text="Login"
           onPress={() => {
-            navigation.push("HomeScreen");
+            loginUser(email, password);
           }}
         />
         <Button

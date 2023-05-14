@@ -1,6 +1,11 @@
-import React, { Component, useState, useEffect, useCallback } from "react";
-import Login from "./screens/Login";
-import Signup from "./screens/Signup";
+import React, {
+  Component,
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+} from "react";
+
 import * as Font from "expo-font";
 import {
   View,
@@ -15,17 +20,9 @@ import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { Entypo } from "@expo/vector-icons";
-import HomeScreen from "./screens/Home/HomeScreen";
 import UserContextProvider from "./context/userContext/context";
-import { StatusBar } from "expo-status-bar";
-// function HomeScreen() {
-//   return (
-//     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-//       <Text>Home Screen</Text>
-//     </View>
-//   );
-// }
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Routes from "./routes/routes";
 
 //Keep the splash screen visible while we fetch the resources
 SplashScreen.preventAutoHideAsync();
@@ -54,31 +51,7 @@ export default function App() {
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
       <UserContextProvider>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login" >
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{
-                headerShadowVisible: false,
-                headerShown: false,
-                headerTitle: "",
-              }}
-            />
-            <Stack.Screen
-              name="Signup"
-              component={Signup}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="HomeScreen"
-              component={HomeScreen}
-              options={{ headerShown: false }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <Routes />
       </UserContextProvider>
     </View>
   );

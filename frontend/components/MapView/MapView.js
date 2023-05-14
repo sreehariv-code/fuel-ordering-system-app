@@ -14,11 +14,17 @@ const MapView = () => {
   const onButtonClick = () => {
     const [lng, lat] = mapCenter.split(",");
     webRef.injectJavaScript(
-      `map.setCenter([${parseFloat(lng)}, ${parseFloat(lat)}])`
+      `map.setCenter([${parseFloat(lng)}, ${parseFloat(lat)}])
+     
+      const newMarker = new tt.Marker().setLngLat([${parseFloat(
+        lng
+      )},${parseFloat(lat)}]).addTo(map);
+      `
     );
   };
 
   const handleMapEvent = (event) => {
+    console.log(event.nativeEvent.data);
     setMapCenter(event.nativeEvent.data);
   };
   return (
@@ -68,6 +74,7 @@ const styles = StyleSheet.create({
     height: "85%",
     alignItems: "center",
     justifyContent: "center",
+    transform: [{ scale: 3 }],
   },
 });
 

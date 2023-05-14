@@ -1,78 +1,117 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
-import MapView, { Marker } from "react-native-maps";
-import * as Location from "expo-location";
+import React, { useState } from "react";
+import { Button, StyleSheet, TextInput, View } from "react-native";
+import WebView from "react-native-webview";
 
-export default function MapViewTemp() {
-  const [currentLocation, setCurrentLocation] = useState(null);
-  const [locationError, setLocationError] = useState(null);
+import mapTemplate from "../../components/MapTemplate/map-template";
 
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setLocationError("Permission to access location was denied");
-        return;
-      }
+const MapScreen = () => {
+  let webRef = undefined;
+  let [mapCenter, setMapCenter] = useState("76.2144, 10.5276");
+  let [marker, setMarker] = useState(null);
 
-      try {
-        let location = await Location.getCurrentPositionAsync({});
-        setCurrentLocation(location.coords);
-      } catch (error) {
-        setLocationError("Unable to obtain location");
-      }
-    })();
-  }, []);
+  const run = `
+      document.body.style.backgroundColor = 'blue';
+      true;
+    `;
 
-  if (locationError) {
-    return (
-      <View style={styles.container}>
-        <Text>{locationError}</Text>
-      </View>
+  const onButtonClick = () => {
+    const [lng, lat] = mapCenter.split(",");
+    webRef.injectJavaScript(
+      `map.setCenter([${parseFloat(lng)}, ${parseFloat(lat)}])
+      `
     );
-  }
+  };
 
-  if (!currentLocation) {
-    console.log(currentLocation);
-    return (
-      <View style={styles.container}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+  const handleMapEvent = (event) => {
+    setMapCenter(event.nativeEvent.data);
+  };
+
+  const setMapMarker = (position) => {
+    // Remove the previous marker
+    if (marker) {
+      marker.remove();
+    }
+    // Create a new marker
+    const newMarker = new tt.Marker().setLngLat(position).addTo(map);
+    setMarker(newMarker);
+  };
 
   return (
-    <MapView
-      style={styles.map}
-      provider="tomtom"
-      tomtom={{
-        apiKey: "G6s10rHxiazuOmC5kNMPeyqgDmGAdezZ",
-      }}
-      initialRegion={{
-        latitude: currentLocation.latitude,
-        longitude: currentLocation.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      }}
-    >
-      <Marker
-        coordinate={{
-          latitude: currentLocation.latitude,
-          longitude: currentLocation.longitude,
+    <View style={styles.container}>
+      <View style={styles.buttons}>
+        <TextInput
+          style={styles.textInput}
+          onChangeText={setMapCenter}
+          value={mapCenter}
+        ></TextInput>
+        <Button title="Set Center" onPress={onButtonClick}></Button>
+      </View>
+      <WebView
+        ref={(r) => (webRef = r)}
+        onMessage={handleMapEvent}
+        style={styles.map}
+        originWhitelist={["*"]}
+        source={{ html: mapTemplate }}
+        onLoad={() => {
+          const [lng, lat] = mapCenter.split(",");
+          const center = [parseFloat(lng), parseFloat(lat)];
+          // create the map
+          tt.setProductInfo("TomTom Maps React Native Demo", "1.0");
+          let map = tt.map({
+            key: "G6s10rHxiazuOmC5kNMPeyqgDmGAdezZ",
+            container: "map",
+            center: center,
+            zoom: 17.5,
+          });
+
+          map.on("click", function (e) {
+            window.ReactNativeWebView.postMessage(
+              JSON.stringify({ x: e.point.x, y: e.point.y })
+            );
+            setMapMarker(e.lngLat);
+          });
+
+          map.on("dragend", function () {
+            let center = map.getCenter();
+            window.ReactNativeWebView.postMessage(
+              center.lng.toFixed(3) + ", " + center.lat.toFixed(3)
+            );
+            setMapMarker(center);
+          });
         }}
-        title="My Location"
       />
-    </MapView>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: "column",
     flex: 1,
-    justifyContent: "center",
+  },
+  buttons: {
+    flexDirection: "row",
+    height: "15%",
+    backgroundColor: "#fff",
+    color: "#000",
     alignItems: "center",
+    justifyContent: "center",
+    marginTop: 12,
+  },
+  textInput: {
+    height: 40,
+    width: "60%",
+    marginRight: 12,
+    paddingLeft: 5,
+    borderWidth: 1,
   },
   map: {
-    flex: 1,
+    width: "100%",
+    height: "85%",
+    alignItems: "center",
+    justifyContent: "center",
+    transform: [{ scale: 3 }],
   },
 });
+
+export default MapScreen;
