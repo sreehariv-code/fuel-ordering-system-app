@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js'
+import distributorRoutes from './routes/distributorRoutes.js'
 import User from './models/userModel.js'
 import { errorHandler } from './middleware/errorMiddleware.js'
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.use('/api/users', userRoutes)
+app.use('/api/distributors', distributorRoutes)
 app.use('/api/orders', orderRoutes)
 // Sample routes
 // app.post('/signup', async (req, res) => {

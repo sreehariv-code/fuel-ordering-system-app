@@ -1,6 +1,4 @@
 import bcrypt from 'bcryptjs'
-import mongoose from 'mongoose'
-import User from './models/userModel.js'
 
 const users = [
     {
@@ -35,6 +33,91 @@ const users = [
     },
 ]
 
+const distributors = [
+    {
+        name: 'Steve Smith',
+        email: 'stevesmith@test.com',
+        password: bcrypt.hashSync('123456789', 10),
+        phoneNumber: '9879876123',
+        fuelTypes: [
+            {
+                name: 'Petrol',
+                unitPrice: '108.67',
+                available: true
+            },
+            {
+                name: 'Diesel',
+                unitPrice: '103.54',
+                available: true
+            },
+        ],
+        stationDetails: {
+            stationName: 'Hilltop fuels',
+            licenceNumber: 'XAD2345678',
+            address: '123 Street'
+        },
+        online: true,
+    },
+    {
+        name: 'Annie Jones',
+        email: 'anniejs@test.com',
+        password: bcrypt.hashSync('12309845', 10),
+        phoneNumber: '9753186420',
+        fuelTypes: [
+            {
+                name: 'Petrol',
+                unitPrice: '108.45',
+                available: true,
+            },
+            {
+                name: 'Diesel',
+                unitPrice: '103.20',
+                available: true,
+            },
+            {
+                name: 'Premium petrol',
+                unitPrice: '116.15',
+                available: true,
+            },
+        ],
+        stationDetails: {
+            stationName: 'Jones Fuels',
+            licenceNumber: 'XCS34512345',
+            address: '25 B Street',
+        },
+        online: true,
+    },
+    {
+        name: 'Cory James',
+        email: 'cjames@test.com',
+        password: bcrypt.hashSync('1231239', 10),
+        phoneNumber: '9078563412',
+        fuelTypes: [
+            {
+                name: 'Petrol',
+                unitPrice: '108.67',
+                available: true,
+            },
+            {
+                name: 'Diesel',
+                unitPrice: '103.54',
+                available: false,
+            },
+            {
+                name: 'CNG',
+                unitPrice: '98.92',
+                available: true,
+            },
+        ],
+        stationDetails: {
+            stationName: 'Star fuels',
+            licenceNumber: 'YCD1029384',
+            address: '12 C Street'
+        },
+        online: false,
+    },
+]
+
 const orders = [
     {
         fuelType: 'Petrol',
@@ -64,4 +147,8 @@ const orders = [
 
 ]
 
-export {users, orders }
+export {
+    users, 
+    orders,
+    distributors,
+}
