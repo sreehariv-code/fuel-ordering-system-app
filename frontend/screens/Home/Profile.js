@@ -9,7 +9,6 @@ const Profile = () => {
     useContext(UserContext);
   return (
     <SafeAreaView style={{ flex: 1, flexDirection: "column" }}>
-      <View> </View>
       <View style={{ width: 200 }}>
         <Button
           title="Get profile"
