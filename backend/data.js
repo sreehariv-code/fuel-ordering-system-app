@@ -171,39 +171,6 @@ const distributors = [
     },
 ]
 
-const orders = [
-    {
-        fuelType: 'Petrol',
-        fuelAmount: 20,
-        paidAmount: 2500,
-        status: 'Pending'
-    },
-    {
-        fuelType: 'Diesel',
-        fuelAmount: 30,
-        paidAmount: 3200,
-        status: 'Processing'
-    },
-    {
-        fuelType: 'CNG',
-        fuelAmount: 15.5,
-        paidAmount: 1800,
-        status: 'Delivered'
-    },
-    {
-        fuelType: 'Petrol',
-        fuelAmount: 18.25,
-        paidAmount: 2150,
-        status: 'Processing'
-    },
-    {
-        fuelType: 'Premium petrol',
-        fuelAmount: 12,
-        paidAmount: 1750,
-        status: 'Cancelled'
-    },
-]
-
 const drivers = [
     {
         name: 'Ken Woods',
@@ -244,7 +211,6 @@ const drivers = [
 
 export {
     users, 
-    orders,
     distributors,
     drivers,
 }

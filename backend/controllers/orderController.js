@@ -27,15 +27,16 @@ const getOrders = asyncHandler(async (req, res) => {
 })
 
 const placeOrder = asyncHandler( async(req, res) => {
-    const { fuelType, fuelAmount, paidAmount } = req.body
+    const { fuelType, fuelAmount, paidAmount, distributor } = req.body
     const user = req.user.id
-    if(!fuelType || !fuelAmount || !paidAmount) {
+    if(!fuelType || !fuelAmount || !paidAmount || !distributor) {
         res.status(400)
         throw new Error('Please enter all fields')
     }
 
     const order = await Order.create({
         user,
+        distributor,
         fuelType,
         fuelAmount,
         paidAmount,
@@ -45,6 +46,7 @@ const placeOrder = asyncHandler( async(req, res) => {
         res.status(201).json({
             _id: order.id,
             user,
+            distributor,
             fuelType,
             fuelAmount,
             paidAmount,

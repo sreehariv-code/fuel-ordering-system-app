@@ -34,7 +34,7 @@ const orderSchema = mongoose.Schema({
     distributor: {
         type: Schema.Types.ObjectId,
         ref: 'Distributor',
-        // required: true
+        required: true
     },
     // paymentStatus: {
     //     type: Boolean,
