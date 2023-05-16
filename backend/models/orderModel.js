@@ -15,6 +15,10 @@ const orderSchema = mongoose.Schema({
         type: Number,
         required: true
     },
+    paidAmount: {
+        type: Number,
+        required: true
+    },
     status: {
         type: String,
         enum: ['Pending', 'Processing', 'Delivered', 'Cancelled'],
@@ -32,10 +36,10 @@ const orderSchema = mongoose.Schema({
         ref: 'Distributor',
         // required: true
     },
-    paymentStatus: {
-        type: Boolean,
-        default: false
-    },
+    // paymentStatus: {
+    //     type: Boolean,
+    //     default: false
+    // },
     paymentMethod: {
         type: String,
         // required: true

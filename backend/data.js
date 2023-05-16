@@ -116,39 +116,135 @@ const distributors = [
         },
         online: false,
     },
+    {
+        name: 'Henry Trump',
+        email: 'henrytrump@test.com',
+        password: bcrypt.hashSync('2143658', 10),
+        phoneNumber: '9102834756',
+        fuelTypes: [
+            {
+                name: 'Petrol',
+                unitPrice: '108.67',
+                available: true
+            },
+            {
+                name: 'Diesel',
+                unitPrice: '103.54',
+                available: false
+            },
+        ],
+        stationDetails: {
+            stationName: 'Victory fuels',
+            licenceNumber: 'SZC654378',
+            address: '121 D Street'
+        },
+        online: true,
+    },
+    {
+        name: 'Brad Jacob',
+        email: 'jacobbrad@test.com',
+        password: bcrypt.hashSync('10293049', 10),
+        phoneNumber: '9112324450',
+        fuelTypes: [
+            {
+                name: 'Petrol',
+                unitPrice: '108.67',
+                available: false
+            },
+            {
+                name: 'Diesel',
+                unitPrice: '103.54',
+                available: true
+            },
+            {
+                name: 'CNG',
+                unitPrice: '99.75',
+                available: true
+            },
+        ],
+        stationDetails: {
+            stationName: 'Jacobs fuels',
+            licenceNumber: 'ADC102983844',
+            address: '123 Street'
+        },
+        online: true,
+    },
 ]
 
 const orders = [
     {
         fuelType: 'Petrol',
         fuelAmount: 20,
+        paidAmount: 2500,
         status: 'Pending'
     },
     {
         fuelType: 'Diesel',
         fuelAmount: 30,
+        paidAmount: 3200,
         status: 'Processing'
     },
     {
         fuelType: 'CNG',
         fuelAmount: 15.5,
+        paidAmount: 1800,
         status: 'Delivered'
     },
     {
         fuelType: 'Petrol',
         fuelAmount: 18.25,
+        paidAmount: 2150,
         status: 'Processing'
     },
     {
         fuelType: 'Premium petrol',
         fuelAmount: 12,
+        paidAmount: 1750,
         status: 'Cancelled'
     },
+]
 
+const drivers = [
+    {
+        name: 'Ken Woods',
+        email: 'kenwoods@xyz.com',
+        password: bcrypt.hashSync('10203040', 10),
+        phoneNumber: '9118227335',
+        licence: 'DL08 12098345672',
+    },
+    {
+        name: 'Harry Peter',
+        email: 'harrypeter@xyz.com',
+        password: bcrypt.hashSync('3344550', 10),
+        phoneNumber: '6078594213',
+        licence: 'DL03 67891234505',
+    },
+    {
+        name: 'Arun Kumar',
+        email: 'arunkumar@xyz.com',
+        password: bcrypt.hashSync('0987654', 10),
+        phoneNumber: '9070123456',
+        licence: 'DL04 12093458671',
+    },
+    {
+        name: 'Jenny Frank',
+        email: 'jfrank@xyz.com',
+        password: bcrypt.hashSync('19293949', 10),
+        phoneNumber: '8086510293',
+        licence: 'DL01 2901384576',
+    },
+    {
+        name: 'Alia Sen',
+        email: 'aliasen@xyz.com',
+        password: bcrypt.hashSync('1526374', 10),
+        phoneNumber: '6230018239',
+        licence: 'DL12 39485706121',
+    },
 ]
 
 export {
     users, 
     orders,
     distributors,
+    drivers,
 }

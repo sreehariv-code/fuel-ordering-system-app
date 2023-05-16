@@ -23,7 +23,7 @@ const DriverSchema = mongoose.Schema({
     location: {
         // Add location details
     },
-    license: {
+    licence: {
         type: String,
         required: true,
         unique: true

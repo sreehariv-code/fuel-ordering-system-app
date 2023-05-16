@@ -4,8 +4,49 @@ import bcrypt from 'bcryptjs'
 import Distributor from '../models/distributorModel.js'
 import { generateToken } from '../utils/util.js'
 
+// @desc Register new distributor
+// @route POST /api/distributors/signup
+// @access public
 const registerDistributor = asyncHandler(async (req, res) => {
+    const { name, email, password, phoneNumber, stationDetails } = req.body;
 
+    if(!name || !email || !password || !phoneNumber || !stationDetails) {
+        res.status(400);
+        throw new Error('Please enter all fields');
+    }
+
+    // Check if distributor already exists
+    const distributorExists = await Distributor.findOne({ email });
+    if(distributorExists) {
+        res.status(400);
+        throw new Error('Distributor already exists');
+    }
+
+    // Hash password 
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create distributor
+    const distributor = await Distributor.create({
+        name, 
+        email, 
+        phoneNumber,
+        password: hashedPassword,
+        stationDetails,
+    });
+
+    if(user) {
+        res.status(201).json({
+            _id: distributor.id,
+            name,
+            email,
+            phoneNumber,
+            token: generateToken(distributor._id, 'distributor')
+        });
+    } else {
+        res.status(400);
+        throw new Error('Invalid distributor data');
+    }
 })
 
 // @desc Authenticate a distributor

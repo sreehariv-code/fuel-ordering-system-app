@@ -5,6 +5,7 @@ import connectDB from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js'
 import distributorRoutes from './routes/distributorRoutes.js'
+import driverRoutes from './routes/driverRoutes.js'
 import User from './models/userModel.js'
 import { errorHandler } from './middleware/errorMiddleware.js'
 
@@ -23,6 +24,7 @@ app.use(express.urlencoded({extended: true}));
 app.use('/api/users', userRoutes)
 app.use('/api/distributors', distributorRoutes)
 app.use('/api/orders', orderRoutes)
+app.use('/api/drivers', driverRoutes)
 // Sample routes
 // app.post('/signup', async (req, res) => {
 //     console.log(req.body);
