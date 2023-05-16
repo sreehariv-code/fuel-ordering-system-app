@@ -1,35 +1,100 @@
 import { SafeAreaView, Text, Image, Button, View } from "react-native";
 import { UserContext } from "../../context/userContext/context";
-import { useContext, useState } from "react";
-import MapScreen from "../../components/MapView/MapViewTemp";
+import { useContext, useEffect, useState } from "react";
+import ProfileImg from "../../constants/constants";
+
+import { Feather } from "@expo/vector-icons";
 
 const Profile = () => {
   const [profileData, setProfileData] = useState();
   const { token, getUserProfile, profile, logOutUser } =
     useContext(UserContext);
+  useEffect(() => {
+    getUserProfile();
+  }, []);
   return (
     <SafeAreaView style={{ flex: 1, flexDirection: "column" }}>
-      <View style={{ width: 200 }}>
-        <Button
-          title="Get profile"
-          onPress={() => {
-            getUserProfile();
-          }}
-        />
-      </View>
-      <View>
-        <Text>User Name: {profile.userName}</Text>
-        <Text>Email: {profile.email}</Text>
-        <Text>Phone Number: {profile.phoneNumber}</Text>
-      </View>
-      <Button
-        onPress={() => {
-          logOutUser();
+      <View style={{ flex: 0.27, backgroundColor: "#eee" }}></View>
+      <View
+        style={{
+          alignItems: "center",
+          backgroundColor: "#fff",
+          position: "relative",
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          flex: 1,
         }}
-        title="Logout"
-      />
-
-      {/* <MapScreen /> */}
+      >
+        <View
+          style={{
+            width: 200,
+            aspectRatio: 1 / 1,
+            alignItems: "center",
+            justifyContent: "center",
+            top: -58,
+            position: "absolute",
+            overflow: "hidden",
+            borderWidth: 10,
+            borderColor: "#eee",
+            borderRadius: 100,
+            elevation: 1,
+            zIndex: 1,
+          }}
+        >
+          <Image
+            source={ProfileImg}
+            resizeMode="cover"
+            style={{ maxWidth: 200, maxHeight: 200, top: 10 }}
+          />
+        </View>
+        <View
+          style={{
+            alignItems: "center",
+            paddingTop: 200,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 30,
+              fontFamily: "unbound-bold",
+              fontWeight: "600",
+              marginBottom: 12,
+            }}
+          >
+            {profile.userName}
+          </Text>
+          <Text
+            style={{
+              fontSize: 20,
+              color: "#555",
+              fontFamily: "unbound-regular",
+              fontWeight: "500",
+            }}
+          >
+            {profile.email}
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <Feather name="phone" size={24} color="black" />
+            <Text style={{ fontFamily: "unbound-regular", marginLeft: 10 }}>
+              {profile.phoneNumber}
+            </Text>
+          </View>
+        </View>
+        <View>
+          <Button
+            title="Log out"
+            onPress={() => {
+              logOutUser();
+            }}
+          />
+        </View>
+      </View>
     </SafeAreaView>
   );
 };

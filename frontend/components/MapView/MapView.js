@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, StyleSheet, TextInput, View } from "react-native";
 import WebView from "react-native-webview";
 
-import mapTemplate from "../../components/MapTemplate/map-template";
-const MapView = () => {
+import mapTemplate from "../MapTemplate/map-template";
+const MapView = ({ location }) => {
   let webRef = undefined;
-  let [mapCenter, setMapCenter] = useState("76.2144, 10.5276");
+  let [mapCenter, setMapCenter] = useState(null);
+  useEffect(() => {
+    if (location) {
+      setMapCenter(`${location[1]},${location[0]}`);
+    } else {
+      setMapCenter("76.2144, 10.5276");
+    }
+  }, [location]);
   const run = `
       document.body.style.backgroundColor = 'blue';
       true;
@@ -15,10 +22,11 @@ const MapView = () => {
     const [lng, lat] = mapCenter.split(",");
     webRef.injectJavaScript(
       `map.setCenter([${parseFloat(lng)}, ${parseFloat(lat)}])
+      
      
-      const newMarker = new tt.Marker().setLngLat([${parseFloat(
-        lng
-      )},${parseFloat(lat)}]).addTo(map);
+      marker = new tt.Marker().setLngLat([${parseFloat(lng)},${parseFloat(
+        lat
+      )}]).addTo(map);
       `
     );
   };
@@ -52,6 +60,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     flex: 1,
+    backgroundColor: "red",
   },
   buttons: {
     flexDirection: "row",
@@ -60,7 +69,7 @@ const styles = StyleSheet.create({
     color: "#000",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 12,
+    paddingTop: 12,
   },
   textInput: {
     height: 40,

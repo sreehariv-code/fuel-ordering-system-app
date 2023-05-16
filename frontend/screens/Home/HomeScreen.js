@@ -3,9 +3,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { Platform } from "react-native";
 
-import Home from "./Home";
 import Profile from "./Profile";
 import OrderPage from "./OrderPage";
+import Main from "../Main";
 
 const HomeScreen = () => {
   const Tab = createBottomTabNavigator();
@@ -16,8 +16,8 @@ const HomeScreen = () => {
       screenOptions={options}
     >
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="Main"
+        component={Main}
         options={{
           headerShadowVisible: false,
           headerShown: false,
@@ -53,7 +53,7 @@ const options = ({ route }) => ({
     color = focused ? "#fff" : "#333";
     //setting the icon based on render state
     switch (route.name) {
-      case "Home":
+      case "Main":
         iconName = focused ? "home" : "home-outline";
 
         return <Ionicons name={iconName} size={size} color={color} />;

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Platform } from "react-native";
-import { createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useEffect, useMemo, useReducer, useState } from "react";
 import userContextReducer from "./ContextReducer";
 import { REQUEST, GET_USERS } from "./Types.js";
 import Constants from "expo-constants";
@@ -11,13 +11,15 @@ const { manifest } = Constants;
 
 const androidUrl = `http://${manifest.debuggerHost
   .split(":")
-  .shift()}:3000/api/users`;
-const iosUrl = `http://localhost:3000/api/users`;
-let baseURL;
+  .shift()}:3000/api/`;
+const iosUrl = `http://localhost:3000/api/`;
+let baseURL, distributorUrl;
 if (Platform.OS === "android") {
-  baseURL = androidUrl;
+  baseURL = androidUrl + "users";
+  distributorUrl = androidUrl + "distributors";
 } else {
-  baseURL = iosUrl;
+  baseURL = iosUrl + "users";
+  distributorUrl = iosUrl + "distributors";
 }
 
 const initialState = {
@@ -137,6 +139,28 @@ const UserContextProvider = ({ children }) => {
     }
   };
 
+  //@Distributer Context
+  const [distributorsList, setDistributorList] = useState(null);
+
+  const getListOfDistributors = async () => {
+    try {
+      const updatedList = await axios.get(`${distributorUrl}`, config);
+      setDistributorList(updatedList.data[0].fuelTypes);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getListOfDistributors();
+  }, []);
+
+  const memoizedDistributorsList = useMemo(
+    () => distributorsList,
+    [distributorsList]
+  );
+
+  console.log(memoizedDistributorsList);
   return (
     <UserContext.Provider
       value={{
@@ -148,6 +172,7 @@ const UserContextProvider = ({ children }) => {
         profile,
         logOutUser,
         createUser,
+        distributorsList,
       }}
     >
       {children}
