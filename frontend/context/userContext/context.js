@@ -46,11 +46,6 @@ const UserContextProvider = ({ children }) => {
 
   let [token, setToken] = useState("");
 
-  const [profile, setProfile] = useState({
-    userName: "",
-    phoneNumber: "",
-    email: "",
-  });
   const config = {
     headers: {
       "Content-Type": "application/json",
