@@ -6,7 +6,6 @@ import { ProfileImg } from "../../constants/constants";
 import { Feather } from "@expo/vector-icons";
 
 const Profile = () => {
-  const [profileData, setProfileData] = useState();
   const { token, getUserProfile, userState, logOutUser } =
     useContext(UserContext);
   useEffect(() => {
