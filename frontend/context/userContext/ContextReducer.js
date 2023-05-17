@@ -29,7 +29,7 @@ const userContextReducer = (state, action) => {
 
     case USER_LOGOUT_FAIL:
       return state
-      
+
     default:
       return state;
   }

@@ -10,6 +10,7 @@ const Profile = () => {
     useContext(UserContext);
   useEffect(() => {
     getUserProfile();
+    
   }, []);
   return (
     <SafeAreaView style={{ flex: 1, flexDirection: "column" }}>
@@ -70,6 +71,7 @@ const Profile = () => {
               fontWeight: "500",
             }}
           >
+            
             {userState.loggedUser.email}
           </Text>
           <View

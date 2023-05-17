@@ -111,11 +111,12 @@ const UserContextProvider = ({ children }) => {
       dispatch({
         type: REQUEST,
       })
-      const userData = await axios.get(`${baseURL}/profile`, userConfig);
+      const res = await axios.get(`${baseURL}/profile`, userConfig);
       dispatch({
         type: USER_PROFILE_SUCCESS,
-        payload: userData.data,
+        payload: res.data,
       })
+      
       // setProfile({
       //   userName: userData.data.name,
       //   phoneNumber: userData.data.phoneNumber,
@@ -208,7 +209,6 @@ const UserContextProvider = ({ children }) => {
         loginUser,
         token,
         getUserProfile,
-        profile,
         logOutUser,
         createUser,
         distributorsList,
