@@ -7,7 +7,7 @@ import { Feather } from "@expo/vector-icons";
 
 const Profile = () => {
   const [profileData, setProfileData] = useState();
-  const { token, getUserProfile, profile, logOutUser } =
+  const { token, getUserProfile, userState, logOutUser } =
     useContext(UserContext);
   useEffect(() => {
     getUserProfile();
@@ -61,7 +61,7 @@ const Profile = () => {
               marginBottom: 12,
             }}
           >
-            {profile.userName}
+            {userState.loggedUser.name}
           </Text>
           <Text
             style={{
@@ -71,7 +71,7 @@ const Profile = () => {
               fontWeight: "500",
             }}
           >
-            {profile.email}
+            {userState.loggedUser.email}
           </Text>
           <View
             style={{
@@ -82,7 +82,7 @@ const Profile = () => {
           >
             <Feather name="phone" size={24} color="black" />
             <Text style={{ fontFamily: "unbound-regular", marginLeft: 10 }}>
-              {profile.phoneNumber}
+              {userState.loggedUser.phoneNumber}
             </Text>
           </View>
         </View>
