@@ -145,7 +145,7 @@ const UserContextProvider = ({ children }) => {
   const getListOfDistributors = async () => {
     try {
       const updatedList = await axios.get(`${distributorUrl}`, config);
-      setDistributorList(updatedList.data[0].fuelTypes);
+      setDistributorList(updatedList.data);
     } catch (error) {
       console.log(error);
     }
@@ -160,7 +160,6 @@ const UserContextProvider = ({ children }) => {
     [distributorsList]
   );
 
-  console.log(memoizedDistributorsList);
   return (
     <UserContext.Provider
       value={{
@@ -173,6 +172,7 @@ const UserContextProvider = ({ children }) => {
         logOutUser,
         createUser,
         distributorsList,
+        memoizedDistributorsList,
       }}
     >
       {children}

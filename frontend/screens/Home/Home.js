@@ -61,7 +61,11 @@ const styles = StyleSheet.create({
     fontWeight: "690",
     fontSize: 20,
   },
-  orderBtn: { paddingTop: 30, alignItems: "center" },
+  orderBtn: {
+    alignItems: "center",
+    minHeight: 180,
+    justifyContent: "center",
+  },
 });
 
 export default Home;

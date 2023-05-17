@@ -1,7 +1,7 @@
 import { SafeAreaView, Text, Image, Button, View } from "react-native";
 import { UserContext } from "../../context/userContext/context";
 import { useContext, useEffect, useState } from "react";
-import ProfileImg from "../../constants/constants";
+import { ProfileImg } from "../../constants/constants";
 
 import { Feather } from "@expo/vector-icons";
 

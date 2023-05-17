@@ -8,7 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 
-import ProfileImg from "../constants/constants";
+import { ProfileImg } from "../constants/constants";
 
 const Profilebtn = ({ navigation }) => {
   return (
