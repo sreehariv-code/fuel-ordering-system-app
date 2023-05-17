@@ -2,7 +2,17 @@ import axios from "axios";
 import { Platform } from "react-native";
 import { createContext, useEffect, useMemo, useReducer, useState } from "react";
 import userContextReducer from "./ContextReducer";
-import { REQUEST, GET_USERS } from "./Types.js";
+import { 
+  REQUEST, 
+  USER_REGISTER_SUCESS, 
+  USER_REGISTER_FAIL, 
+  USER_LOGIN_SUCCESS, 
+  USER_LOGIN_FAIL, 
+  USER_PROFILE_SUCCESS, 
+  USER_PROFILE_FAIL,
+  USER_LOGOUT_SUCCESS,
+  USER_LOGOUT_FAIL, 
+} from "./Types.js";
 import Constants from "expo-constants";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -24,8 +34,8 @@ if (Platform.OS === "android") {
 
 const initialState = {
   loading: false,
-  users: [],
-  user: {},
+  loggedUser: null,
+  error: null,
 };
 
 export const UserContext = createContext(initialState);
@@ -66,22 +76,34 @@ const UserContextProvider = ({ children }) => {
 
   const createUser = async (name, email, phoneNumber, password) => {
     try {
+      dispatch({
+        type: REQUEST,
+      })
+
       const res = await axios.post(
         `${baseURL}/signup`,
         { name, email, password, phoneNumber },
         config
       );
+      dispatch({
+        type: USER_REGISTER_SUCESS,
+        payload: res.data,
+      })
       await AsyncStorage.setItem("@token", res.data.token);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error)
+      dispatch({
+        type: USER_REGISTER_FAIL,
+      })
+      const err = error.response && error.response.data.message ? error.response.data.message : error.message
     }
   };
 
   const getUsers = async () => {
     try {
-      dispatch: {
-        type: REQUEST;
-      }
+      dispatch({
+        type: REQUEST,
+      })
       const users = await axios.get(`${baseURL}`, config);
       console.log(users.data);
     } catch (err) {
@@ -91,17 +113,25 @@ const UserContextProvider = ({ children }) => {
 
   const getUserProfile = async () => {
     try {
-      dispatch: {
-        type: REQUEST;
-      }
+      dispatch({
+        type: REQUEST,
+      })
       const userData = await axios.get(`${baseURL}/profile`, userConfig);
-      setProfile({
-        userName: userData.data.name,
-        phoneNumber: userData.data.phoneNumber,
-        email: userData.data.email,
-      });
+      dispatch({
+        type: USER_PROFILE_SUCCESS,
+        payload: userData.data,
+      })
+      // setProfile({
+      //   userName: userData.data.name,
+      //   phoneNumber: userData.data.phoneNumber,
+      //   email: userData.data.email,
+      // });
     } catch (error) {
       console.log(error);
+      dispatch({
+        type: USER_PROFILE_FAIL,
+      })
+      const err = error.response && error.response.data.message ? error.response.data.message : error.message
     }
   };
 
@@ -113,6 +143,10 @@ const UserContextProvider = ({ children }) => {
         { email, password },
         config
       );
+      dispatch({
+        type: USER_LOGIN_SUCCESS,
+        payload: res.data,
+      })
       setToken(res.data.token);
       try {
         await AsyncStorage.setItem("@token", res.data.token);
@@ -121,21 +155,32 @@ const UserContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error.message);
+      dispatch({
+        type: USER_LOGIN_FAIL,
+      })
+      const err = error.response && error.response.data.message ? error.response.data.message : error.message
     }
   };
 
   const logOutUser = () => {
     try {
       const res = axios.get(`${baseURL}/logout`, userConfig);
+      dispatch({
+        type: USER_LOGOUT_SUCCESS,
+      })
       setToken(null);
       AsyncStorage.setItem("@token", "");
-      setProfile({
-        userName: "",
-        phoneNumber: "",
-        email: "",
-      });
-    } catch (err) {
-      console.log("User Logout Failed: " + { err });
+      // setProfile({
+      //   userName: "",
+      //   phoneNumber: "",
+      //   email: "",
+      // });
+    } catch (error) {
+      console.log("User Logout Failed: " + { error });
+      dispatch({
+        type: USER_LOGOUT_FAIL,
+      })
+      const err = error.response && error.response.data.message ? error.response.data.message : error.message
     }
   };
 
