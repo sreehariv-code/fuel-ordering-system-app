@@ -34,7 +34,7 @@ const FuelOrderScreen = ({ navigation }) => {
   );
   const unitPrice = selectedFuel ? selectedFuel.unitPrice : 0;
 
-  console.log(unitPrice);
+  // console.log(unitPrice);
 
   const handleAmountChange = (value) => {
     setFuelAmount(value);
@@ -74,10 +74,12 @@ const FuelOrderScreen = ({ navigation }) => {
         setFuelId={setFuelId}
       />
       <View>
-        <Text style={{ fontSize: 20, paddingLeft: 14, fontWeight: "600" }}>
-          Choose Fuel Type
-        </Text>
         <View style={{ paddingLeft: 14 }}>
+          {stationFuelTypes && (
+            <Text style={{ fontSize: 20, paddingLeft: 14, fontWeight: "600" }}>
+              Choose Fuel Type
+            </Text>
+          )}
           <FlatList
             data={stationFuelTypes}
             renderItem={({ item }) => (

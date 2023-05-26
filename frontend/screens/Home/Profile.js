@@ -9,9 +9,15 @@ const Profile = () => {
   const { token, getUserProfile, userState, logOutUser } =
     useContext(UserContext);
   useEffect(() => {
-    getUserProfile();
-    
+    (async () => {
+      await getUserProfile(token);
+    })();
   }, []);
+
+  if (!userState.loggedUser) {
+    return null;
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, flexDirection: "column" }}>
       <View style={{ flex: 0.27, backgroundColor: "#eee" }}></View>
@@ -71,7 +77,6 @@ const Profile = () => {
               fontWeight: "500",
             }}
           >
-            
             {userState.loggedUser.email}
           </Text>
           <View

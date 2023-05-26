@@ -12,7 +12,7 @@ const fuelType = ["Petrol", "Diesel", "CNG"];
 const Home = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
-  const { token } = useContext(UserContext);
+  const { token, getUserProfile, userState } = useContext(UserContext);
 
   useEffect(() => {
     (async () => {

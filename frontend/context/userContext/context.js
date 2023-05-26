@@ -2,16 +2,16 @@ import axios from "axios";
 import { Platform } from "react-native";
 import { createContext, useEffect, useMemo, useReducer, useState } from "react";
 import userContextReducer from "./ContextReducer";
-import { 
-  REQUEST, 
-  USER_REGISTER_SUCESS, 
-  USER_REGISTER_FAIL, 
-  USER_LOGIN_SUCCESS, 
-  USER_LOGIN_FAIL, 
-  USER_PROFILE_SUCCESS, 
+import {
+  REQUEST,
+  USER_REGISTER_SUCESS,
+  USER_REGISTER_FAIL,
+  USER_LOGIN_SUCCESS,
+  USER_LOGIN_FAIL,
+  USER_PROFILE_SUCCESS,
   USER_PROFILE_FAIL,
   USER_LOGOUT_SUCCESS,
-  USER_LOGOUT_FAIL, 
+  USER_LOGOUT_FAIL,
 } from "./Types.js";
 import Constants from "expo-constants";
 
@@ -73,7 +73,7 @@ const UserContextProvider = ({ children }) => {
     try {
       dispatch({
         type: REQUEST,
-      })
+      });
 
       const res = await axios.post(
         `${baseURL}/signup`,
@@ -83,14 +83,17 @@ const UserContextProvider = ({ children }) => {
       dispatch({
         type: USER_REGISTER_SUCESS,
         payload: res.data,
-      })
+      });
       await AsyncStorage.setItem("@token", res.data.token);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       dispatch({
         type: USER_REGISTER_FAIL,
-      })
-      const err = error.response && error.response.data.message ? error.response.data.message : error.message
+      });
+      const err =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
     }
   };
 
@@ -98,7 +101,7 @@ const UserContextProvider = ({ children }) => {
     try {
       dispatch({
         type: REQUEST,
-      })
+      });
       const users = await axios.get(`${baseURL}`, config);
       console.log(users.data);
     } catch (err) {
@@ -106,17 +109,18 @@ const UserContextProvider = ({ children }) => {
     }
   };
 
-  const getUserProfile = async () => {
+  const getUserProfile = async (token) => {
     try {
       dispatch({
         type: REQUEST,
-      })
+      });
+      setToken(token);
       const res = await axios.get(`${baseURL}/profile`, userConfig);
       dispatch({
         type: USER_PROFILE_SUCCESS,
         payload: res.data,
-      })
-      
+      });
+
       // setProfile({
       //   userName: userData.data.name,
       //   phoneNumber: userData.data.phoneNumber,
@@ -126,8 +130,11 @@ const UserContextProvider = ({ children }) => {
       console.log(error);
       dispatch({
         type: USER_PROFILE_FAIL,
-      })
-      const err = error.response && error.response.data.message ? error.response.data.message : error.message
+      });
+      const err =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
     }
   };
 
@@ -142,7 +149,7 @@ const UserContextProvider = ({ children }) => {
       dispatch({
         type: USER_LOGIN_SUCCESS,
         payload: res.data,
-      })
+      });
       setToken(res.data.token);
       try {
         await AsyncStorage.setItem("@token", res.data.token);
@@ -153,8 +160,11 @@ const UserContextProvider = ({ children }) => {
       console.log(error.message);
       dispatch({
         type: USER_LOGIN_FAIL,
-      })
-      const err = error.response && error.response.data.message ? error.response.data.message : error.message
+      });
+      const err =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
     }
   };
 
@@ -163,7 +173,7 @@ const UserContextProvider = ({ children }) => {
       const res = axios.get(`${baseURL}/logout`, userConfig);
       dispatch({
         type: USER_LOGOUT_SUCCESS,
-      })
+      });
       setToken(null);
       AsyncStorage.setItem("@token", "");
       // setProfile({
@@ -175,8 +185,11 @@ const UserContextProvider = ({ children }) => {
       console.log("User Logout Failed: " + { error });
       dispatch({
         type: USER_LOGOUT_FAIL,
-      })
-      const err = error.response && error.response.data.message ? error.response.data.message : error.message
+      });
+      const err =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
     }
   };
 
