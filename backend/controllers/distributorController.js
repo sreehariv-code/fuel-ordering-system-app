@@ -149,6 +149,73 @@ const getDistributors = asyncHandler(async (req, res) => {
     res.status(200).json(distributors)
 })
 
+// Function to calculate 3-D distance between two points using Haversine formula
+const getDistance = (lat1, lon1, lat2, lon2) => {
+    // approximate radius of earth in km
+    const R = 6371;
+
+    const dLat = ((lat2 - lat1) * Math.PI) / 180;
+    const dLon = ((lon2 - lon1) * Math.PI) / 180;
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((lat1 * Math.PI) / 180) *
+        Math.cos((lat2 * Math.PI) / 180) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const distance = R * c;
+
+    return distance;
+}
+
+// Function to sort destinations by distance
+const sortDestinationsByDistance = (sourceLat, sourceLon, destinations, radius) => {
+    const destinationsWithDistance = destinations.map(destination => {
+        const distance = getDistance(sourceLat, sourceLon, destination.location.latitude, destination.location.longitude)
+
+        return { ...destination, distance }
+    })
+
+    const sortedDestinations = destinationsWithDistance.sort((a, b) => a.distance - b.distance)
+    const nearbyDestinations = sortedDestinations.filter(destination => destination.distance <= radius)
+    return nearbyDestinations;
+}
+
+// @desc Get list of all distributors within a specified radius
+// @route GET /api/distributors/:radius
+// @access private
+const getNearbyDistributors = asyncHandler(async (req, res) => {
+    const { radius } = req.params
+    const distributors = await Distributor.find().select('-password')
+    if(!distributors) {
+        res.status(404)
+        throw new Error('No distributors found')
+    }
+    const destinations = distributors.map(distributor => ({id: distributor._id, location: distributor.location}))
+    const { latitude, longitude } = req.user.location
+
+    const sortedDestinations = sortDestinationsByDistance(latitude, longitude, destinations, radius)
+
+    // const sortedDistributors = [];
+    // sortedDestinations.forEach(destination => {
+    //     const distributor = distributors.filter(distributor => distributor._id === destination.id)
+    //     sortedDistributors.push(distributor)
+    // })
+    const sortedDistributors = sortedDestinations.map((destination) => {
+        const distributor = distributors.filter(distributor => distributor._id === destination.id)
+        return { distributor, distance: destination.distance }
+    })
+    if(!sortedDistributors) {
+        res.status(404)
+        throw new Error('No distributors found within the specified range')
+    }
+
+    res.status(200).json(sortedDistributors)
+})
+
 export {
     registerDistributor,
     loginDistributor,
@@ -157,4 +224,5 @@ export {
     updateFuelInfo,
     logoutDistributor,
     getDistributors,
+    getNearbyDistributors,
 }

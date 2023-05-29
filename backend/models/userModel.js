@@ -21,15 +21,14 @@ const UserSchema = mongoose.Schema({
     // avatar: {
     //     type: String
     // },
-    // location: {
-    //     // Add location details
-    // },
-    // orders: [
-    //     {
-    //         type: Schema.Types.ObjectId,
-    //         ref: 'Order'
-    //     }
-    // ]
+    location: {
+        latitude: {
+            type: Number,
+        },
+        longitude: {
+            type: Number,
+        }
+    },
 });
 
 const User = mongoose.models.users || mongoose.model('user', UserSchema);

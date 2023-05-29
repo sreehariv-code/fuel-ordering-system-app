@@ -5,7 +5,11 @@ const users = [
         name: 'John Doe',
         email: 'johndoe@test.com',
         password: bcrypt.hashSync('1234567', 10),
-        phoneNumber: '9876543210'
+        phoneNumber: '9876543210',
+        location: {
+            latitude: 9.253207,
+            longitude: 76.824738,
+        }
     },
     {
         name: 'Jane Doe',
@@ -57,6 +61,10 @@ const distributors = [
             address: '123 Street'
         },
         online: true,
+        location: {
+            latitude: 9.265919,
+            longitude: 76.806970,
+        },
     },
     {
         name: 'Annie Jones',
@@ -86,6 +94,10 @@ const distributors = [
             address: '25 B Street',
         },
         online: true,
+        location: {
+            latitude: 9.267508,
+            longitude: 76.790877,
+        },
     },
     {
         name: 'Cory James',
@@ -115,6 +127,10 @@ const distributors = [
             address: '12 C Street'
         },
         online: false,
+        location: {
+            latitude: 9.264616,
+            longitude: 76.778048,
+        },
     },
     {
         name: 'Henry Trump',
@@ -139,6 +155,10 @@ const distributors = [
             address: '121 D Street'
         },
         online: true,
+        location: {
+            latitude: 9.267922,
+            longitude: 76.798122,
+        },
     },
     {
         name: 'Brad Jacob',
@@ -168,6 +188,10 @@ const distributors = [
             address: '123 Street'
         },
         online: true,
+        location: {
+            latitude: 9.261535,
+            longitude: 76.780882,
+        },
     },
 ]
 

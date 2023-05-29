@@ -21,7 +21,12 @@ const DriverSchema = mongoose.Schema({
         type: String
     },
     location: {
-        // Add location details
+        latitude: {
+            type: Number,
+        },
+        longitude: {
+            type: Number,
+        }
     },
     licence: {
         type: String,

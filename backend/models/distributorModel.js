@@ -65,7 +65,15 @@ const DistributorSchema = mongoose.Schema({
     online: {
         type: Boolean,
         default: false,
-    }
+    },
+    location: {
+        latitude: {
+            type: Number,
+        },
+        longitude: {
+            type: Number,
+        }
+    },
 });
 
 const Distributor = mongoose.models.distributors || mongoose.model('distributor', DistributorSchema);
