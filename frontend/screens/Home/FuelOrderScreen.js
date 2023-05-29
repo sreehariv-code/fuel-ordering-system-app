@@ -1,21 +1,56 @@
-import React, { useContext, useState } from "react";
-import { Button, FlatList, Text, TextInput } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  Alert,
+  Button,
+  FlatList,
+  Platform,
+  ScrollView,
+  Text,
+  TextInput,
+} from "react-native";
 import { View } from "react-native";
 import DropdownComponent from "../../components/DropDownList/DropDown";
 import { UserContext } from "../../context/userContext/context";
 import FuelCards from "../../components/FuelCards";
+import { useStripe } from "@stripe/stripe-react-native";
+import axios from "axios";
+import Constants from "expo-constants";
 
 const FuelOrderScreen = ({ navigation }) => {
+  const { token, getUserProfile, userState, memoizedDistributorsList } =
+    useContext(UserContext);
   const [stationId, setStationId] = useState(null);
   const [fuelId, setFuelId] = useState(null);
   const [fuelAmount, setFuelAmount] = useState("");
   const [fuelPrice, setFuelPrice] = useState("");
+  const stripe = useStripe();
 
+  const { manifest } = Constants;
+
+  const androidUrl = `http://${manifest.debuggerHost
+    .split(":")
+    .shift()}:8080/api/`;
+  const iosUrl = `http://localhost:8080/api/`;
+  let baseURL;
+  if (Platform.OS === "android") {
+    baseURL = androidUrl + "pay";
+  } else {
+    baseURL = iosUrl + "pay";
+  }
+
+  useEffect(() => {
+    (async () => {
+      await getUserProfile(token);
+    })();
+  }, []);
+
+  if (!userState.loggedUser) {
+    return null;
+  }
   const handlePress = (id) => {
     setFuelId(id);
   };
 
-  const { memoizedDistributorsList } = useContext(UserContext);
   const optionList = memoizedDistributorsList.map(
     ({ _id, stationDetails }) => ({
       id: _id,
@@ -54,69 +89,122 @@ const FuelOrderScreen = ({ navigation }) => {
     }
   };
 
+  //function to place order
+  const stripeConfig = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const placeOrder = async () => {
+    try {
+      const name = userState.loggedUser.name;
+      const amount = fuelPrice;
+      //sending request
+      const response = await axios.post(
+        baseURL,
+        { name, amount },
+        stripeConfig
+      );
+
+      const data = await response.data;
+
+      if (!data) return Alert.alert(data.message);
+
+      const clientSecret = data.clientSecret;
+
+      const initSheet = await stripe.initPaymentSheet({
+        paymentIntentClientSecret: clientSecret,
+        merchantDisplayName: "Anwar",
+      });
+
+      if (initSheet.error) return Alert.alert(initSheet.error.message);
+
+      const presentSheet = await stripe.presentPaymentSheet({
+        clientSecret,
+      });
+
+      if (presentSheet.error) return Alert.alert(presentSheet.error.message);
+      Alert.alert("Payment Completed, Thank You");
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Something went wrong, try again later!!");
+    }
+  };
+
   return (
-    <View>
-      <View>
-        <Button
-          title="Go Back to Home"
-          onPress={() => {
-            navigation.goBack();
-          }}
+    <View style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1, flexDirection: "column" }}>
+        <Text style={{ fontSize: 20, fontWeight: "700", paddingLeft: 14 }}>
+          Nearby Fuel Stations
+        </Text>
+        <DropdownComponent
+          list={optionList}
+          value={stationId}
+          setValue={setStationId}
+          setFuelId={setFuelId}
         />
-      </View>
-      <Text style={{ fontSize: 20, fontWeight: "700", paddingLeft: 14 }}>
-        Nearby Fuel Stations
-      </Text>
-      <DropdownComponent
-        list={optionList}
-        value={stationId}
-        setValue={setStationId}
-        setFuelId={setFuelId}
-      />
-      <View>
-        <View style={{ paddingLeft: 14 }}>
-          {stationFuelTypes && (
-            <Text style={{ fontSize: 20, paddingLeft: 14, fontWeight: "600" }}>
-              Choose Fuel Type
-            </Text>
-          )}
-          <FlatList
-            data={stationFuelTypes}
-            renderItem={({ item }) => (
-              <FuelCards
-                fuelName={item.name}
-                fuelId={item._id}
-                selectedFuelId={fuelId}
-                onPress={() => {
-                  handlePress(item._id);
+        <View>
+          <View style={{ paddingLeft: 14 }}>
+            {stationFuelTypes && (
+              <Text
+                style={{
+                  fontSize: 20,
+                  paddingLeft: 14,
+                  fontWeight: "600",
+                  paddingVertical: 30,
                 }}
-              />
+              >
+                Choose Fuel Type
+              </Text>
             )}
-            horizontal
-          />
-          {fuelId && (
-            <View>
-              <View>
-                <Text>Set The Quantity</Text>
-              </View>
-              <View>
-                <TextInput
-                  keyboardType="numeric"
-                  placeholder="Amount of fuel"
-                  value={fuelAmount}
-                  onChangeText={handleAmountChange}
+            <FlatList
+              data={stationFuelTypes}
+              renderItem={({ item }) => (
+                <FuelCards
+                  fuelName={item.name}
+                  fuelId={item._id}
+                  selectedFuelId={fuelId}
+                  onPress={() => {
+                    handlePress(item._id);
+                  }}
                 />
-                <TextInput
-                  keyboardType="numeric"
-                  placeholder="Price"
-                  value={fuelPrice}
-                  onChangeText={handlePriceChange}
-                />
+              )}
+              horizontal
+            />
+            {fuelId && (
+              <View style={{ paddingLeft: 10 }}>
+                <View
+                  style={{
+                    paddingTop: 34,
+                  }}
+                >
+                  <Text style={{ fontSize: 20 }}>Set The Quantity</Text>
+                </View>
+                <View style={{ paddingVertical: 20 }}>
+                  <TextInput
+                    keyboardType="numeric"
+                    placeholder="Amount of fuel"
+                    value={fuelAmount}
+                    onChangeText={handleAmountChange}
+                    style={{ marginBottom: 10 }}
+                  />
+                  <TextInput
+                    keyboardType="numeric"
+                    placeholder="Price"
+                    value={fuelPrice}
+                    onChangeText={handlePriceChange}
+                  />
+                </View>
               </View>
-            </View>
-          )}
+            )}
+          </View>
         </View>
-      </View>
+      </ScrollView>
+      {(fuelPrice != 0 || fuelAmount) && (
+        <View>
+          <Button title="Place Order" onPress={placeOrder} />
+        </View>
+      )}
     </View>
   );
 };

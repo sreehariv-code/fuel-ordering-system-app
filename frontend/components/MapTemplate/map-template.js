@@ -23,13 +23,10 @@ export default `
         let map = tt.map({
             key: 'G6s10rHxiazuOmC5kNMPeyqgDmGAdezZ',
             container: 'map',
-            center: [76.2144, 10.5276],
             zoom: 17
         });
 
-        var marker = new tt.Marker().setLngLat([76.2144, 10.5276]).addTo(map);
-
-        
+        let marker = null;        
         
         map.on('dragend', function() {
             let center = map.getCenter();

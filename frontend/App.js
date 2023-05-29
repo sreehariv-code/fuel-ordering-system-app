@@ -6,6 +6,8 @@ import { useFonts } from "expo-font";
 
 import UserContextProvider from "./context/userContext/context";
 
+import { StripeProvider } from "@stripe/stripe-react-native";
+
 import Routes from "./routes/routes";
 
 //Keep the splash screen visible while we fetch the resources
@@ -33,7 +35,9 @@ export default function App() {
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
       <UserContextProvider>
-        <Routes />
+        <StripeProvider publishableKey="pk_test_51N8KFbSDWJliWSBAPEvZsmX61gATxDnmGGyRjpn3dC7wHia7nhmPyit9TIjGRidtlaJN9rhZEbhbGRPvxk5Hq4lY00RREithT3">
+          <Routes />
+        </StripeProvider>
       </UserContextProvider>
     </View>
   );
