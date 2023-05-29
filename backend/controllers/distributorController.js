@@ -198,12 +198,7 @@ const getNearbyDistributors = asyncHandler(async (req, res) => {
     const { latitude, longitude } = req.user.location
 
     const sortedDestinations = sortDestinationsByDistance(latitude, longitude, destinations, radius)
-
-    // const sortedDistributors = [];
-    // sortedDestinations.forEach(destination => {
-    //     const distributor = distributors.filter(distributor => distributor._id === destination.id)
-    //     sortedDistributors.push(distributor)
-    // })
+    
     const sortedDistributors = sortedDestinations.map((destination) => {
         const distributor = distributors.filter(distributor => distributor._id === destination.id)
         return { distributor, distance: destination.distance }

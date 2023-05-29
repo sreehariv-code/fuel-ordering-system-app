@@ -125,6 +125,20 @@ const getUsers = asyncHandler(async (req, res) => {
     res.status(200).json(users);
 })
 
+const setLocation = asyncHandler(async (req, res) => {
+    const { latitude, longitude } = req.body
+
+    const user = await User.findById(req.user.id)
+    if(!user) {
+        res.status(404) 
+        throw new Error('User not found')
+    }
+
+    const userWithLocation = await User.findByIdAndUpdate(req.user.id, { $set: { 'location.latitude': latitude, 'location.longitude': longitude }}, { new: true }).select('-password')
+
+    res.status(200).json(userWithLocation)
+})
+
 export {
     registerUser,
     loginUser,
@@ -132,4 +146,5 @@ export {
     getUserProfile,
     updateUserProfile,
     getUsers,
+    setLocation,
 }

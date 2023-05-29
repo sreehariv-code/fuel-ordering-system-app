@@ -6,6 +6,7 @@ import {
     updateUserProfile,
     logoutUser,
     getUsers,
+    setLocation,
 } from '../controllers/userController.js'
 import { isAuthenticatedUser } from '../middleware/authMiddleware.js';
 
@@ -17,5 +18,5 @@ router.post('/login', loginUser)
 router.get('/logout', isAuthenticatedUser, logoutUser)
 router.get('/profile', isAuthenticatedUser, getUserProfile)
 router.patch('/update-profile', isAuthenticatedUser, updateUserProfile)
-
+router.patch('/location', isAuthenticatedUser, setLocation)
 export default router;
