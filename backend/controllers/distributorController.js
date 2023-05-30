@@ -35,7 +35,7 @@ const registerDistributor = asyncHandler(async (req, res) => {
         stationDetails,
     });
 
-    if(user) {
+    if(distributor) {
         res.status(201).json({
             _id: distributor.id,
             name,
@@ -75,13 +75,37 @@ const loginDistributor = asyncHandler(async (req, res) => {
 // @route GET /api/distributors/profile
 // @access private
 const getDistributorProfile = asyncHandler(async (req, res) => {
-    const { _id, name, email, phoneNumber, stationDetails } = await Distributor.findById(req.user.id);
+    const { _id, name, email, phoneNumber, stationDetails, online } = await Distributor.findById(req.user.id);
     res.status(200).json({
         id: _id,
         name,
         email,
         phoneNumber,
         stationDetails,
+        online,
+    })
+})
+
+// @desc Update distributor profile
+// @route PATCH /api/distributors/update-profile
+// @access private
+const updateDistributorProfile = asyncHandler(async (req, res) => {
+    // Check for distributor
+    const distributor = await Distributor.findById(req.user.id)
+    if(!distributor) {
+        res.status(404);
+        throw new Error('Distributor not found');
+    }
+
+    const updates = req.body;
+    const updatedDistributor = await Distributor.findByIdAndUpdate(req.user.id, { $set: updates }, { new: true });
+    res.status(200).json({
+        id: updatedDistributor.id,
+        name: updatedDistributor.name,
+        email: updatedDistributor.email,
+        phoneNumber: updatedDistributor.phoneNumber,
+        stationDetails: updatedDistributor.stationDetails,
+        online: updatedDistributor.online,
     })
 })
 
@@ -89,7 +113,7 @@ const getDistributorProfile = asyncHandler(async (req, res) => {
 // @route GET /api/distributors/fuel-info
 // @access private
 const getFuelInfo = asyncHandler(async (req, res) => {
-    // Check for user
+    // Check for distributor
     const distributor = await Distributor.findById(req.user.id)
     if(!distributor) {
         res.status(404);
@@ -105,23 +129,23 @@ const getFuelInfo = asyncHandler(async (req, res) => {
 // @route PATCH /api/distributors/udpate-fuel-info
 // @access private
 const updateFuelInfo = asyncHandler(async (req, res) => {
-    // // Check for user
-    // const distributor = await Distributor.findById(req.user.id)
-    // if(!distributor) {
-    //     res.status(404);
-    //     throw new Error('Distributor not found')
-    // }
+    // Check for distributor
+    const distributor = await Distributor.findById(req.user.id)
+    if(!distributor) {
+        res.status(404);
+        throw new Error('Distributor not found')
+    }
 
-    // const { fuelName, price, available } = req.body
-    // const fuelType = distributor.fuelTypes.find(fuelType => fuelType.name === fuelName)
-    // fuelType.unitPrice = price
-    // fuelType.available = available
+    const { fuelName, price, available } = req.body
+    const fuelType = distributor.fuelTypes.find(fuelType => fuelType.name === fuelName)
+    console.log(fuelType)
+    fuelType.unitPrice = price
+    fuelType.available = available
+    await distributor.save()
 
-    // await distributor.save()
-    // // const updatedDistributor = await Distributor.findByIdAndUpdate(req.user.id, { $set: {} }, { new: true });
-    // res.status(200).json({
-    //     fuelTypes: distributor.fuelTypes,
-    // })
+    res.status(200).json({
+        fuelTypes: distributor.fuelTypes,
+    })
 })
 
 // @desc Logout distributor
@@ -200,7 +224,7 @@ const getNearbyDistributors = asyncHandler(async (req, res) => {
     const sortedDestinations = sortDestinationsByDistance(latitude, longitude, destinations, radius)
     
     const sortedDistributors = sortedDestinations.map((destination) => {
-        const distributor = distributors.filter(distributor => distributor._id === destination.id)
+        const distributor = distributors.find(distributor => distributor._id === destination.id)
         return { distributor, distance: destination.distance }
     })
     if(!sortedDistributors) {
@@ -215,6 +239,7 @@ export {
     registerDistributor,
     loginDistributor,
     getDistributorProfile,
+    updateDistributorProfile,
     getFuelInfo,
     updateFuelInfo,
     logoutDistributor,
