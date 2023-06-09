@@ -42,6 +42,8 @@ export const UserContext = createContext(initialState);
 
 const UserContextProvider = ({ children }) => {
   const [userState, dispatch] = useReducer(userContextReducer, initialState);
+  const [distributorsList, setDistributorList] = useState(null);
+  const [filteredList, setFilteredList] = useState([]);
   //   const baseURL = "http://192.168.43.164:3000/api/users";
 
   let [token, setToken] = useState("");
@@ -193,8 +195,20 @@ const UserContextProvider = ({ children }) => {
     }
   };
 
+  const updateUserLocation = async (long, lat) => {
+    console.log("Updating user location");
+    try {
+      const response = await axios.patch(
+        `${baseURL}/location`,
+        { latitude: lat, longitude: long },
+        userConfig
+      );
+    } catch (error) {
+      console.log("Can't execute user-location data");
+    }
+  };
+
   //@Distributer Context
-  const [distributorsList, setDistributorList] = useState(null);
 
   const getListOfDistributors = async () => {
     try {
@@ -214,6 +228,26 @@ const UserContextProvider = ({ children }) => {
     [distributorsList]
   );
 
+  const getListofDistributorsNearby = async (radius) => {
+    try {
+      fetchDistributors(radius);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchDistributors = async (radius) => {
+    try {
+      const updatedList = await axios.get(
+        `${distributorUrl}/range/${radius}`,
+        userConfig
+      );
+      setFilteredList(updatedList.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -226,6 +260,9 @@ const UserContextProvider = ({ children }) => {
         createUser,
         distributorsList,
         memoizedDistributorsList,
+        getListofDistributorsNearby,
+        updateUserLocation,
+        filteredList,
       }}
     >
       {children}

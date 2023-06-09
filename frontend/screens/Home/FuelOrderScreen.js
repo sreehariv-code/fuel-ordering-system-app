@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
+import Button from "../../components/Button";
 import {
   Alert,
-  Button,
   FlatList,
   Platform,
   ScrollView,
@@ -15,15 +15,31 @@ import FuelCards from "../../components/FuelCards";
 import { useStripe } from "@stripe/stripe-react-native";
 import axios from "axios";
 import Constants from "expo-constants";
+import FilterTabs from "../../components/FilterTabs/FilterTabs";
 
 const FuelOrderScreen = ({ navigation }) => {
-  const { token, getUserProfile, userState, memoizedDistributorsList } =
-    useContext(UserContext);
+  const {
+    token,
+    getUserProfile,
+    userState,
+    memoizedDistributorsList,
+    getListofDistributorsNearby,
+    filteredList,
+  } = useContext(UserContext);
   const [stationId, setStationId] = useState(null);
   const [fuelId, setFuelId] = useState(null);
   const [fuelAmount, setFuelAmount] = useState("");
   const [fuelPrice, setFuelPrice] = useState("");
+  const [data, setData] = useState(null);
+  const [radius, setRadius] = useState(0);
+
   const stripe = useStripe();
+
+  const filterDistances = [
+    { title: "2 km", data: 2 },
+    { title: "5 km", data: 5 },
+    { title: "10 km", data: 10 },
+  ];
 
   const { manifest } = Constants;
 
@@ -44,12 +60,33 @@ const FuelOrderScreen = ({ navigation }) => {
     })();
   }, []);
 
+  useEffect(() => {
+    getListofDistributorsNearby(radius);
+  }, [radius]);
+
   if (!userState.loggedUser) {
     return null;
   }
   const handlePress = (id) => {
     setFuelId(id);
   };
+
+  // const handleFilterPress = (radius) => {
+  //   console.log("In HandlePress: ", radius);
+  //   getListofDistributorsNearby(radius);
+  // };
+
+  let extractedData = [];
+
+  if (filteredList.length > 0) {
+    extractedData = filteredList.map((item) => {
+      const { _id, distributor } = item;
+      const { stationDetails } = distributor;
+      const { stationName, address } = stationDetails;
+
+      return { _id, stationName, address };
+    });
+  }
 
   const optionList = memoizedDistributorsList.map(
     ({ _id, stationDetails }) => ({
@@ -83,7 +120,7 @@ const FuelOrderScreen = ({ navigation }) => {
   const handlePriceChange = (value) => {
     setFuelPrice(value);
     if (value === "") {
-      setFuelPrice("0");
+      setFuelAmount("0");
     } else {
       setFuelAmount((parseFloat(value) / unitPrice).toString());
     }
@@ -131,14 +168,55 @@ const FuelOrderScreen = ({ navigation }) => {
     }
   };
 
+  // let extractedData = [];
+
+  if (filteredList.length > 0) {
+    extractedData = filteredList.map((item) => {
+      return {
+        id: item.distributor._id,
+        stationName: item.distributor.stationDetails.stationName,
+        address: item.distributor.stationDetails.address,
+        online: item.distributor.online,
+        fuelType: item.distributor.fuelTypes,
+      };
+    });
+  }
+
+  console.log(extractedData);
+
   return (
     <View style={{ flex: 1 }}>
+      {/* <Button
+        text="Go to orders"
+        onPress={() => {
+          navigation.navigate("Orders");
+        }}
+      /> */}
       <ScrollView style={{ flex: 1, flexDirection: "column" }}>
         <Text style={{ fontSize: 20, fontWeight: "700", paddingLeft: 14 }}>
           Nearby Fuel Stations
         </Text>
+        <View style={{ marginLeft: 20 }}>
+          <FlatList
+            data={filterDistances}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <FilterTabs
+                text={item.title}
+                data={item.data}
+                selectedData={data}
+                onPress={() => {
+                  setData(item.data);
+                  setRadius(item.data);
+                }}
+              />
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+          />
+        </View>
         <DropdownComponent
-          list={optionList}
+          list={extractedData}
           value={stationId}
           setValue={setStationId}
           setFuelId={setFuelId}
@@ -186,13 +264,27 @@ const FuelOrderScreen = ({ navigation }) => {
                     placeholder="Amount of fuel"
                     value={fuelAmount}
                     onChangeText={handleAmountChange}
-                    style={{ marginBottom: 10 }}
+                    style={{
+                      borderWidth: 2,
+                      borderBottomColor: "#000",
+                      padding: 2,
+                      width: 300,
+                      borderRadius: 5,
+                    }}
                   />
                   <TextInput
                     keyboardType="numeric"
                     placeholder="Price"
                     value={fuelPrice}
                     onChangeText={handlePriceChange}
+                    style={{
+                      borderWidth: 2,
+                      borderBottomColor: "#000",
+                      padding: 2,
+                      width: 300,
+                      borderRadius: 5,
+                      marginTop: 5,
+                    }}
                   />
                 </View>
               </View>
@@ -201,8 +293,17 @@ const FuelOrderScreen = ({ navigation }) => {
         </View>
       </ScrollView>
       {(fuelPrice != 0 || fuelAmount) && (
-        <View>
-          <Button title="Place Order" onPress={placeOrder} />
+        <View
+          style={{
+            backgroundColor: "#fff",
+            paddingVertical: 20,
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
+            elevation: 2,
+            shadowColor: "#333",
+          }}
+        >
+          <Button text="Place Order" onPress={placeOrder} />
         </View>
       )}
     </View>

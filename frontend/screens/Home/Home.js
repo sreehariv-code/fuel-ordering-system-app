@@ -7,27 +7,44 @@ import MapView from "../../components/MapView/MapView";
 import { UserContext } from "../../context/userContext/context";
 import Button from "../../components/Button";
 
-const fuelType = ["Petrol", "Diesel", "CNG"];
-
 const Home = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
-  const { token, getUserProfile, userState } = useContext(UserContext);
+  const { token, getUserProfile, userState, updateUserLocation } =
+    useContext(UserContext);
 
   useEffect(() => {
-    (async () => {
+    const getLocation = async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status === "granted") {
-        console.log("Permission Granted");
-      } else {
+      if (status !== "granted") {
         console.log("Permission denied");
+        return;
       }
 
-      let location = await Location.getCurrentPositionAsync();
-      const latitude = location.coords.latitude;
-      const longtitude = location.coords.longitude;
-      setLocation([latitude, longtitude]);
-    })();
+      try {
+        let location = await Location.getLastKnownPositionAsync({});
+        if (location) {
+          console.log("Got location");
+          const { latitude, longitude } = location.coords;
+          updateUserLocation(longitude, latitude);
+          setLocation([latitude, longitude]);
+        } else {
+          console.log("Didn't get location");
+          const defaultLatitude = 9.2656466;
+          const defaultLongitude = 76.8089454;
+          updateUserLocation(defaultLongitude, defaultLatitude);
+          setLocation([defaultLatitude, defaultLongitude]);
+        }
+      } catch (error) {
+        console.error("Error getting location:", error);
+        const defaultLatitude = 9.2656466;
+        const defaultLongitude = 76.8089454;
+        updateUserLocation(defaultLongitude, defaultLatitude);
+        setLocation([defaultLatitude, defaultLongitude]);
+      }
+    };
+
+    getLocation();
   }, []);
 
   return (
