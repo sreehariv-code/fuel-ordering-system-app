@@ -216,7 +216,7 @@ const FuelOrderScreen = ({ navigation }) => {
           />
         </View>
         <DropdownComponent
-          list={extractedData}
+          list={optionList}
           value={stationId}
           setValue={setStationId}
           setFuelId={setFuelId}
