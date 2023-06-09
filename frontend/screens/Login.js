@@ -16,6 +16,7 @@ const Login = ({ navigation }) => {
         style={styles.input}
         placeholder="Username"
         keyboardType="email-address"
+        autoCapitalize="none"
       />
       <TextInput
         onChangeText={(e) => setPassword(e)}
@@ -23,6 +24,7 @@ const Login = ({ navigation }) => {
         style={styles.input}
         placeholder="Password"
         secureTextEntry={true}
+        autoCapitalize="none"
       />
       <View style={styles.buttonSection}>
         <Button

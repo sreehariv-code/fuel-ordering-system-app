@@ -22,6 +22,7 @@ const Signup = () => {
         placeholder="Email"
         keyboardType="email-address"
         onChangeText={(e) => setEmail(e)}
+        autoCapitalize="none"
       />
       <TextInput
         style={styles.input}
@@ -34,6 +35,7 @@ const Signup = () => {
         secureTextEntry={true}
         placeholder="Password"
         onChangeText={(e) => setPassword(e)}
+        autoCapitalize="none"
       />
 
       <View style={styles.buttonSection}>

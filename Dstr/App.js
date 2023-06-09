@@ -17,6 +17,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import MyCarousel from "./components/MyCarousel";
 import ManageDrivers from "./screens/ManageDrivers";
+import DistributorContextProvider from "./distributorContext/Context";
+import { DistributorContext } from "./distributorContext/Context";
+// import { useContext } from "react";
 // import Statusbar from './components/Statusbar';
 // import Carousel from 'react-native-snap-carousel';
 
@@ -25,6 +28,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
+      <DistributorContextProvider>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
@@ -36,7 +40,7 @@ export default function App() {
           name="SignUp"
           component={SignUpScreen}
           options={{ headerShown: false }}
-        />
+        /> 
           <Stack.Screen
             name="Dashboard"
             component={Dashboard}
@@ -73,7 +77,6 @@ export default function App() {
             component={DstrProfile}
             options={{ headerShown: false }}
           />
-          
         </Stack.Navigator>
 
         {/* <SignUpScreen /> */}
@@ -81,6 +84,7 @@ export default function App() {
 
         <ManageFuel /> */}
       </NavigationContainer>
+      </DistributorContextProvider>
     </SafeAreaView>
   );
 }
