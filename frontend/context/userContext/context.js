@@ -86,6 +86,7 @@ const UserContextProvider = ({ children }) => {
         type: USER_REGISTER_SUCESS,
         payload: res.data,
       });
+      setToken(res.data.token);
       await AsyncStorage.setItem("@token", res.data.token);
     } catch (error) {
       console.log(error);

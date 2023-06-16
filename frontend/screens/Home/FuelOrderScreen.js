@@ -7,6 +7,7 @@ import {
   ScrollView,
   Text,
   TextInput,
+  SafeAreaView,
 } from "react-native";
 import { View } from "react-native";
 import DropdownComponent from "../../components/DropDownList/DropDown";
@@ -32,6 +33,8 @@ const FuelOrderScreen = ({ navigation }) => {
   const [fuelPrice, setFuelPrice] = useState("");
   const [data, setData] = useState(null);
   const [radius, setRadius] = useState(0);
+
+  const [distributors, setDistributors] = useState([]);
 
   const stripe = useStripe();
 
@@ -80,13 +83,17 @@ const FuelOrderScreen = ({ navigation }) => {
 
   if (filteredList.length > 0) {
     extractedData = filteredList.map((item) => {
-      const { _id, distributor } = item;
-      const { stationDetails } = distributor;
-      const { stationName, address } = stationDetails;
-
-      return { _id, stationName, address };
+      const { distributor } = item;
+      const { _id, stationDetails, fuelTypes } = distributor;
+      return {
+        distributorId: _id,
+        stationDetails: stationDetails,
+        fuelTypes: fuelTypes,
+      };
     });
   }
+
+  console.log(extractedData);
 
   const optionList = memoizedDistributorsList.map(
     ({ _id, stationDetails }) => ({
@@ -161,6 +168,7 @@ const FuelOrderScreen = ({ navigation }) => {
       });
 
       if (presentSheet.error) return Alert.alert(presentSheet.error.message);
+      console.log(presentSheet);
       Alert.alert("Payment Completed, Thank You");
     } catch (error) {
       console.error(error);
@@ -182,10 +190,8 @@ const FuelOrderScreen = ({ navigation }) => {
     });
   }
 
-  console.log(extractedData);
-
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       {/* <Button
         text="Go to orders"
         onPress={() => {
@@ -306,7 +312,7 @@ const FuelOrderScreen = ({ navigation }) => {
           <Button text="Place Order" onPress={placeOrder} />
         </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
