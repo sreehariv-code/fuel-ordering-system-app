@@ -23,13 +23,15 @@ const androidUrl = `http://${manifest.debuggerHost
   .split(":")
   .shift()}:3000/api/`;
 const iosUrl = `http://localhost:3000/api/`;
-let baseURL, distributorUrl;
+let baseURL, distributorUrl, orderUrl;
 if (Platform.OS === "android") {
   baseURL = androidUrl + "users";
   distributorUrl = androidUrl + "distributors";
+  orderUrl = androidUrl + "orders/create-order";
 } else {
   baseURL = iosUrl + "users";
   distributorUrl = iosUrl + "distributors";
+  orderUrl = iosUrl + "orders/create-order";
 }
 
 const initialState = {
@@ -41,6 +43,7 @@ const initialState = {
 export const UserContext = createContext(initialState);
 
 const UserContextProvider = ({ children }) => {
+  var ObjectID = require("bson-objectid");
   const [userState, dispatch] = useReducer(userContextReducer, initialState);
   const [distributorsList, setDistributorList] = useState(null);
   const [filteredList, setFilteredList] = useState([]);
@@ -55,6 +58,13 @@ const UserContextProvider = ({ children }) => {
   };
   const userConfig = {
     headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const orderConfig = {
+    headers: {
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   };
@@ -209,6 +219,30 @@ const UserContextProvider = ({ children }) => {
     }
   };
 
+  //Order Creation
+  const createOrder = async (
+    fuelName,
+    fuelAmount,
+    fuelPrice,
+    distributorId
+  ) => {
+    try {
+      const response = await axios.post(
+        `${orderUrl}`,
+        {
+          fuelType: fuelName,
+          fuelAmount: parseFloat(fuelAmount),
+          paidAmout: parseFloat(fuelPrice),
+          distributor: distributorId,
+        },
+        orderConfig
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   //@Distributer Context
 
   const getListOfDistributors = async () => {
@@ -264,6 +298,7 @@ const UserContextProvider = ({ children }) => {
         getListofDistributorsNearby,
         updateUserLocation,
         filteredList,
+        createOrder,
       }}
     >
       {children}

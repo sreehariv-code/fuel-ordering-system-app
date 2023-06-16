@@ -6,9 +6,9 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { UserContext } from "../../context/userContext/context";
 
 const DropdownComponent = ({ list, value, setValue, setFuelId }) => {
-  const data = list.map(({ id, stationName, address }) => ({
+  const data = list.map(({ distributorId, stationName, address }) => ({
     label: stationName + " , " + address,
-    value: id,
+    value: distributorId,
   }));
 
   const renderItem = (item) => {

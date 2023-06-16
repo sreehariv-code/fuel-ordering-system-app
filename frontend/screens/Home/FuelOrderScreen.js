@@ -26,9 +26,11 @@ const FuelOrderScreen = ({ navigation }) => {
     memoizedDistributorsList,
     getListofDistributorsNearby,
     filteredList,
+    createOrder,
   } = useContext(UserContext);
   const [stationId, setStationId] = useState(null);
   const [fuelId, setFuelId] = useState(null);
+  const [fuelName, setFuelName] = useState(null);
   const [fuelAmount, setFuelAmount] = useState("");
   const [fuelPrice, setFuelPrice] = useState("");
   const [data, setData] = useState(null);
@@ -70,14 +72,10 @@ const FuelOrderScreen = ({ navigation }) => {
   if (!userState.loggedUser) {
     return null;
   }
-  const handlePress = (id) => {
+  const handlePress = (id, name) => {
     setFuelId(id);
+    setFuelName(name);
   };
-
-  // const handleFilterPress = (radius) => {
-  //   console.log("In HandlePress: ", radius);
-  //   getListofDistributorsNearby(radius);
-  // };
 
   let extractedData = [];
 
@@ -93,27 +91,24 @@ const FuelOrderScreen = ({ navigation }) => {
     });
   }
 
-  console.log(extractedData);
-
-  const optionList = memoizedDistributorsList.map(
-    ({ _id, stationDetails }) => ({
-      id: _id,
-      stationName: stationDetails.stationName,
-      address: stationDetails.address,
-    })
-  );
+  const optionList = extractedData.map((item) => {
+    const { distributorId, stationDetails } = item;
+    const { stationName, address } = stationDetails;
+    return {
+      distributorId,
+      stationName,
+      address,
+    };
+  });
 
   const stationFuelTypes =
-    memoizedDistributorsList.find(
-      (distributor) => distributor._id === stationId
-    )?.fuelTypes || [];
+    extractedData.find((distributor) => distributor.distributorId === stationId)
+      ?.fuelTypes || [];
 
   const selectedFuel = stationFuelTypes.find(
     (fuelType) => fuelType._id === fuelId
   );
   const unitPrice = selectedFuel ? selectedFuel.unitPrice : 0;
-
-  // console.log(unitPrice);
 
   const handleAmountChange = (value) => {
     setFuelAmount(value);
@@ -140,6 +135,10 @@ const FuelOrderScreen = ({ navigation }) => {
     },
   };
   const placeOrder = async () => {
+    if (!stationId) {
+      Alert.alert("Select a station");
+      return;
+    }
     try {
       const name = userState.loggedUser.name;
       const amount = fuelPrice;
@@ -151,6 +150,8 @@ const FuelOrderScreen = ({ navigation }) => {
       );
 
       const data = await response.data;
+
+      console.log(data);
 
       if (!data) return Alert.alert(data.message);
 
@@ -168,36 +169,20 @@ const FuelOrderScreen = ({ navigation }) => {
       });
 
       if (presentSheet.error) return Alert.alert(presentSheet.error.message);
-      console.log(presentSheet);
       Alert.alert("Payment Completed, Thank You");
+      // console.log(fuelName, fuelAmount, fuelPrice, stationId);
+
+      createOrder(fuelName, fuelAmount, fuelPrice, stationId);
     } catch (error) {
       console.error(error);
       Alert.alert("Something went wrong, try again later!!");
     }
   };
 
-  // let extractedData = [];
-
-  if (filteredList.length > 0) {
-    extractedData = filteredList.map((item) => {
-      return {
-        id: item.distributor._id,
-        stationName: item.distributor.stationDetails.stationName,
-        address: item.distributor.stationDetails.address,
-        online: item.distributor.online,
-        fuelType: item.distributor.fuelTypes,
-      };
-    });
-  }
+  console.log(stationId);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {/* <Button
-        text="Go to orders"
-        onPress={() => {
-          navigation.navigate("Orders");
-        }}
-      /> */}
       <ScrollView style={{ flex: 1, flexDirection: "column" }}>
         <Text style={{ fontSize: 20, fontWeight: "700", paddingLeft: 14 }}>
           Nearby Fuel Stations
@@ -249,7 +234,7 @@ const FuelOrderScreen = ({ navigation }) => {
                   fuelId={item._id}
                   selectedFuelId={fuelId}
                   onPress={() => {
-                    handlePress(item._id);
+                    handlePress(item._id, item.name);
                   }}
                 />
               )}
