@@ -4,6 +4,7 @@ import color from '../config/color';
 import Statusbar from '../components/Statusbar';
 import { DistributorContext } from '../distributorContext/Context';
 const LoginScreen = ({navigation}) => {
+  const { loginDistributor, token } = useContext(DistributorContext)
   const [email, setEmail] = useState(''); // used to define variables
   const [password, setPassword] = useState('');
 
@@ -33,7 +34,7 @@ const LoginScreen = ({navigation}) => {
           onChangeText={setPassword}
           secureTextEntry={true}
         />
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <TouchableOpacity style={styles.button} onPress={() => {loginDistributor(email, password)}}>
           <Text style={styles.buttonText}>LOG IN</Text>
         </TouchableOpacity>
         <View style={styles.footerContainer}>

@@ -18,72 +18,23 @@ import { NavigationContainer } from "@react-navigation/native";
 import MyCarousel from "./components/MyCarousel";
 import ManageDrivers from "./screens/ManageDrivers";
 import DistributorContextProvider from "./distributorContext/Context";
-import { DistributorContext } from "./distributorContext/Context";
-// import { useContext } from "react";
+import Routes from "./routes/routes";
+import { useContext } from "react";
 // import Statusbar from './components/Statusbar';
 // import Carousel from 'react-native-snap-carousel';
 
-const Stack = createNativeStackNavigator();
+// const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <DistributorContextProvider>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
-           <Stack.Screen
-          name="SignUp"
-          component={SignUpScreen}
-          options={{ headerShown: false }}
-        /> 
-          <Stack.Screen
-            name="Dashboard"
-            component={Dashboard}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Orders"
-            component={Orders}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Fuel"
-            component={ManageFuel}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Drivers"
-            component={ManageDrivers}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Wallet"
-            component={PassbookScreen}
-            options={{ headerShown: false }}
-            
-          />
-          <Stack.Screen
-            name="Payments"
-            component={ManagePayments}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Profile"
-            component={DstrProfile}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-
+      
         {/* <SignUpScreen /> */}
         {/* <Dashboard />
 
         <ManageFuel /> */}
-      </NavigationContainer>
+      <Routes />
       </DistributorContextProvider>
     </SafeAreaView>
   );
