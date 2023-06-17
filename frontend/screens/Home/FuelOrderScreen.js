@@ -36,8 +36,6 @@ const FuelOrderScreen = ({ navigation }) => {
   const [data, setData] = useState(null);
   const [radius, setRadius] = useState(0);
 
-  const [distributors, setDistributors] = useState([]);
-
   const stripe = useStripe();
 
   const filterDistances = [

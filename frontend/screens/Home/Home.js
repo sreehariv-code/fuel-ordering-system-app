@@ -43,7 +43,6 @@ const Home = ({ navigation }) => {
         setLocation([defaultLatitude, defaultLongitude]);
       }
     };
-
     getLocation();
   }, []);
 

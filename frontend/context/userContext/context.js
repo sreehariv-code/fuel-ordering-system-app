@@ -43,7 +43,6 @@ const initialState = {
 export const UserContext = createContext(initialState);
 
 const UserContextProvider = ({ children }) => {
-  var ObjectID = require("bson-objectid");
   const [userState, dispatch] = useReducer(userContextReducer, initialState);
   const [distributorsList, setDistributorList] = useState(null);
   const [filteredList, setFilteredList] = useState([]);
@@ -232,7 +231,7 @@ const UserContextProvider = ({ children }) => {
         {
           fuelType: fuelName,
           fuelAmount: parseFloat(fuelAmount),
-          paidAmout: parseFloat(fuelPrice),
+          paidAmount: parseFloat(fuelPrice),
           distributor: distributorId,
         },
         orderConfig
