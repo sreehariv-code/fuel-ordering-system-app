@@ -4,6 +4,7 @@ import {
     getOrders,
     placeOrder,
     updateOrderStatus,
+    assignDriver,
 } from '../controllers/orderController.js'
 
 const router = express.Router();
@@ -12,6 +13,8 @@ const router = express.Router();
 router.get('/', isAuthenticatedUser, getOrders)
 router.post('/create-order', isAuthenticatedUser, isAuthorizedUser(['user']), placeOrder)
 router.patch('/update-status/:id', isAuthenticatedUser, updateOrderStatus)
+router.patch('/assign-driver/:id', assignDriver)
+
 export default router;
 
 // getOrders function can be accessed by users, distributors and drivers

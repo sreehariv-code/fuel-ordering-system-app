@@ -33,12 +33,10 @@ const DriverSchema = mongoose.Schema({
         required: true,
         unique: true
     },
-    assignedOrders: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Order'
-        }
-    ]
+    online: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const Driver = mongoose.models.drivers || mongoose.model('driver', DriverSchema);

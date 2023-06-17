@@ -202,6 +202,11 @@ const drivers = [
         password: bcrypt.hashSync('10203040', 10),
         phoneNumber: '9118227335',
         licence: 'DL08 12098345672',
+        location: {
+            latitude: 9.26007464414623,
+            longitude: 76.81655282319246,
+        },
+        online: true,
     },
     {
         name: 'Harry Peter',
@@ -209,6 +214,10 @@ const drivers = [
         password: bcrypt.hashSync('3344550', 10),
         phoneNumber: '6078594213',
         licence: 'DL03 67891234505',
+        location: {
+            latitude: 9.2675402881534,
+            longitude: 76.8245718992535,
+        },
     },
     {
         name: 'Arun Kumar',
@@ -216,6 +225,11 @@ const drivers = [
         password: bcrypt.hashSync('0987654', 10),
         phoneNumber: '9070123456',
         licence: 'DL04 12093458671',
+        location: {
+            latitude: 9.28056977354123,
+            longitude: 76.81644429321238,
+        },
+        online: true,
     },
     {
         name: 'Jenny Frank',
@@ -223,6 +237,10 @@ const drivers = [
         password: bcrypt.hashSync('19293949', 10),
         phoneNumber: '8086510293',
         licence: 'DL01 2901384576',
+        location: {
+            latitude: 9.27608104301477,
+            longitude: 76.8005487715516,
+        },
     },
     {
         name: 'Alia Sen',
@@ -230,6 +248,11 @@ const drivers = [
         password: bcrypt.hashSync('1526374', 10),
         phoneNumber: '6230018239',
         licence: 'DL12 39485706121',
+        location: {
+            latitude: 9.273066644343116,
+            longitude: 76.78782251452374,
+        },
+        online: true,
     },
 ]
 

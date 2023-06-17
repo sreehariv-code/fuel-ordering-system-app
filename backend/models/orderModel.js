@@ -21,7 +21,7 @@ const orderSchema = mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Pending', 'Processing', 'Delivered', 'Rejected', 'Returned', 'Cancelled'],
+        enum: ['Pending', 'Processing', 'Collected', 'Delivered', 'Rejected', 'Returned', 'Cancelled'],
         default: 'Pending'
     },
     driver: {
