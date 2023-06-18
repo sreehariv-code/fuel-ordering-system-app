@@ -11,7 +11,7 @@ import Orders from "../screens/OrdersScreen";
 import LoginScreen from "../screens/login";
 import SignUpScreen from "../screens/signup";
 import { DistributorContext } from "../distributorContext/Context";
-
+import OrderDetailsScreen from "../screens/FullOrderDetail";
 
 const Routes = () => {
   const { token } = useContext(DistributorContext);
@@ -66,6 +66,11 @@ const Routes = () => {
             component={ManagePayments}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="FullOrderDetail"
+            component={OrderDetailsScreen}
+            options={{ headerShown: false }}
+          />          
           <Stack.Screen
             name="Profile"
             component={DstrProfile}

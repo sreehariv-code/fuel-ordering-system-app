@@ -2,17 +2,17 @@ import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import color from '../config/color';
 
-const OrderButton = ({ orderId, amount, date }) => {
+const OrderButton = ({ orderId, amount, date, navigation }) => {
   return (
-    <TouchableOpacity style={styles.button}>
-      <View>
+    
+      <View style={styles.button}>
         <Text style={styles.orderId}>Order ID: {orderId}</Text>
         <View style={styles.rowContainer}>
           <Text style={styles.amount}>Amount: {amount}</Text>
           <Text style={styles.date}>Date: {date}</Text>
         </View>
       </View>
-    </TouchableOpacity>
+    
   );
 };
 
