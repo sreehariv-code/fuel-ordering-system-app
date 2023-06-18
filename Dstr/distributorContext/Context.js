@@ -27,9 +27,11 @@ let baseURL, distributorUrl;
 if (Platform.OS === "android") {
   baseURL = androidUrl + "users";
   distributorUrl = androidUrl + "distributors";
+  orderUrl = androidUrl + "orders";
 } else {
   baseURL = iosUrl + "users";
   distributorUrl = iosUrl + "distributors";
+  orderUrl = iosUrl + "orders";
 }
 
 const initialState = {
@@ -42,7 +44,7 @@ export const DistributorContext = createContext(initialState);
 
 const DistributorContextProvider = ({ children }) => {
     const [distributorState, dispatch] = useReducer(distributorContextReducer, initialState);
-
+    const [orderList, setOrderList] = useState([]);
     let [token, setToken] = useState("");
 
   const config = {
@@ -52,6 +54,7 @@ const DistributorContextProvider = ({ children }) => {
   };
   const distributorConfig = {
     headers: {
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   };
@@ -110,6 +113,15 @@ const DistributorContextProvider = ({ children }) => {
     }
   };
 
+const getOrders = async() => {
+  try {
+    const orderList = await axios.get(`${orderUrl}`, distributorConfig)
+    setOrderList(orderList)
+  } catch(error) {
+    console.log(error);
+  }
+}
+
   return (
     <DistributorContext.Provider
       value={{
@@ -117,6 +129,8 @@ const DistributorContextProvider = ({ children }) => {
         token,
         getDistributors,
         loginDistributor,
+        orderList,
+        getOrders,
         // loginUser,
         // token,
         // getUserProfile,
