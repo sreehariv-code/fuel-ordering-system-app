@@ -45,6 +45,7 @@ export const DistributorContext = createContext(initialState);
 const DistributorContextProvider = ({ children }) => {
     const [distributorState, dispatch] = useReducer(distributorContextReducer, initialState);
     const [orderList, setOrderList] = useState([]);
+    const [fuelInfo, setFuelInfo] = useState([])
     let [token, setToken] = useState("");
 
   const config = {
@@ -113,10 +114,97 @@ const DistributorContextProvider = ({ children }) => {
     }
   };
 
+  const createDistributor = async (name, email, password, phoneNumber, stationName, licenceNumber, address) => {
+    try {
+      dispatch({
+        type: REQUEST,
+      })
+
+      const res = await axios.post(
+        `${distributorUrl}/signup`,
+        { name, email, password, phoneNumber, stationName, licenceNumber, address},
+        config
+      )
+      dispatch({
+        type: DISTRIBUTOR_REGISTER_SUCESS,
+        payload: res.data,
+      })
+      setToken(res.data.token)
+      await AsyncStorage.setItem("@token", res.data.token)
+    } catch(error) {
+      console.log(error)
+      dispatch({
+        type: DISTRIBUTOR_REGISTER_FAIL,
+      })
+    }
+  }
+
+  const getDistributorProfile = async (token) => {
+    try {
+      dispatch({
+        type: REQUEST,
+      });
+      setToken(token);
+      const res = await axios.get(`${distributorUrl}/profile`, distributorConfig);
+      dispatch({
+        type: DISTRIBUTOR_PROFILE_SUCCESS,
+        payload: res.data,
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: DISTRIBUTOR_PROFILE_FAIL,
+      });
+      const err =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+    }
+  };
+
+  const getFuelInfo = async(token) => {
+    try {
+      setToken(token)
+      const res = await axios.get(`${distributorUrl}/fuel-info`,distributorConfig)
+      setFuelInfo(res.data.fuelTypes)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const updateFuelInfo = async(args) => {
+    try {
+      const res = await axios.patch(`${distributorUrl}/update-fuel-info`, {args}, distributorConfig)
+      setFuelInfo(res.data.fuelTypes)
+    } catch(error) {
+      console.log(error)
+    }
+  }
+
+  const logOutDistributor = async () => {
+    try {
+      const res = axios.get(`${distributorUrl}/logout`, distributorConfig);
+      dispatch({
+        type: DISTRIBUTOR_LOGOUT_SUCCESS,
+      });
+      setToken(null);
+      AsyncStorage.setItem("@token", "");
+    } catch (error) {
+      console.log("Distributor Logout Failed: " + { error });
+      dispatch({
+        type: DISTRIBUTOR_LOGOUT_FAIL,
+      });
+      const err =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+    }
+  };
+
 const getOrders = async() => {
   try {
     const orderList = await axios.get(`${orderUrl}`, distributorConfig)
-    setOrderList(orderList)
+    setOrderList(orderList.data)
   } catch(error) {
     console.log(error);
   }
@@ -127,17 +215,16 @@ const getOrders = async() => {
       value={{
         distributorState,
         token,
+        orderList,
+        fuelInfo,
         getDistributors,
         loginDistributor,
-        orderList,
         getOrders,
-        // loginUser,
-        // token,
-        // getUserProfile,
-        // logOutUser,
-        // createUser,
-        // distributorsList,
-        // memoizedDistributorsList,
+        getDistributorProfile,
+        getFuelInfo,
+        updateFuelInfo,
+        logOutDistributor,
+        createDistributor,
       }}
     >
       {children}
