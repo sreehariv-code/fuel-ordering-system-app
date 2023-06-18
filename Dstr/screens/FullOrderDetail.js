@@ -3,10 +3,10 @@ import { View, Text, StyleSheet } from 'react-native';
 import color from '../config/color';
 import Statusbar from '../components/Statusbar';
 
-const OrderDetailsScreen = ({ orderId, fuelType, litre, customerMail, driverMail, price, paymentMode }) => {
+const OrderDetailsScreen = ({ orderId, fuelType, litre, customerMail, driverMail, price, paymentMode,navigation}) => {
   return (
     <View style={styles.container}>
-      <Statusbar heading="ORDER DETAILS" condition="1" />
+      <Statusbar heading="ORDER DETAILS" condition="1" navigation={navigation}/>
 
       <View style={styles.box}>
         <View style={styles.row}>
