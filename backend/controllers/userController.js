@@ -125,6 +125,15 @@ const getUsers = asyncHandler(async (req, res) => {
     res.status(200).json(users);
 })
 
+// @desc Get a user by id
+// @route GET /api/users/:id
+// @access public
+const getUserById = asyncHandler(async (req, res) => {
+    const {id} = req.params
+    const user = await User.findById(id).select("-password")
+    res.status(200).json(user)
+})
+
 const setLocation = asyncHandler(async (req, res) => {
     const { latitude, longitude } = req.body
 
@@ -146,5 +155,6 @@ export {
     getUserProfile,
     updateUserProfile,
     getUsers,
+    getUserById,
     setLocation,
 }
