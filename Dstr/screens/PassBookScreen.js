@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { FontAwesome, Fontisto } from '@expo/vector-icons';
 import OrderButton from '../components/orderButtonPassbook';
 import color from '../config/color';
@@ -34,7 +34,10 @@ const PassBookScreen = ({ w_amount, o_completed ,navigation}) => {
       </View>
       
       <ScrollView style={styles.scrollContainer}>
-        <OrderButton orderId="12345" amount="$50.00" date="May 13, 2023" />
+        <TouchableOpacity onPress={()=> navigation.push('FullOrderDetail')}>
+          <OrderButton navigation={navigation} orderId="12345" amount="$50.00" date="May 13, 2023" /> 
+        </TouchableOpacity>
+        
         <OrderButton orderId="67890" amount="$25.00" date="May 12, 2023" />
         <OrderButton orderId="54321" amount="$35.00" date="May 11, 2023" />
         <OrderButton orderId="12345" amount="$50.00" date="May 13, 2023" />
@@ -52,7 +55,6 @@ const PassBookScreen = ({ w_amount, o_completed ,navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
     backgroundColor: '#f0f0f0',
   },
   header: {

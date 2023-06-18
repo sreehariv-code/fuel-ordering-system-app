@@ -3,9 +3,10 @@ import { View, Image, StyleSheet, Dimensions ,ViewPropTypes} from 'react-native'
 import Carousel from 'react-native-snap-carousel';
 
 const carouselItems = [
-    { image: require('../assets/image1.jpg') },
-    { image: require('../assets/image2.jpg') },
-    { image: require('../assets/image3.jpg') },
+    { image: require('../assets/hp.webp') },
+    { image: require('../assets/indian.webp') },
+    { image: require('../assets/nayara.webp') },
+    { image: require('../assets/jio-bp.webp') },
     // Add more images as needed
   ];
 

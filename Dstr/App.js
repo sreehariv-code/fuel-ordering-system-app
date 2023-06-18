@@ -1,4 +1,4 @@
-import { StatusBar } from "expo-status-bar";
+import { StatusBar } from "react-native";
 import { StyleSheet, Text, SafeAreaView, View, Image } from "react-native";
 import Dashboard from "./screens/Dashboard";
 import MenuBar from "./components/Menubar";
@@ -43,5 +43,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: Platform.OS==="android"? StatusBar.currentHeight:0,
   },
 });

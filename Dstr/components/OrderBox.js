@@ -42,7 +42,8 @@ const OrderBox = ({ userimg, name, fuel, litre, distance, location,navigation })
         </Text>
       </View>
       <View style={{ flexDirection: "row", bottom: "5%", left: "38%" }}>
-        <TouchableOpacity style={styles.button} onPress={toggleModal}>
+        <TouchableOpacity style={styles.button} onPress={()=> navigation.navigate('Dashboard')} > 
+        {/* modal not used */}
           <Text style={styles.accreText}>ACCEPT</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
