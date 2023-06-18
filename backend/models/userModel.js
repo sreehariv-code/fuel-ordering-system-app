@@ -18,9 +18,9 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    // avatar: {
-    //     type: String
-    // },
+    avatar: {
+        type: String
+    },
     location: {
         latitude: {
             type: Number,

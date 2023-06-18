@@ -36,14 +36,6 @@ const orderSchema = mongoose.Schema({
         ref: 'Distributor',
         required: true
     },
-    // paymentStatus: {
-    //     type: Boolean,
-    //     default: false
-    // },
-    paymentMethod: {
-        type: String,
-        // required: true
-    }
 })
 
 const Order = mongoose.models.orders || mongoose.model('order', orderSchema);

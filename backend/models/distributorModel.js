@@ -52,16 +52,7 @@ const DistributorSchema = mongoose.Schema({
             type: String,
             required: [true, 'Address must be specified'],
         },
-        location: {
-            // Add location details
-        }
     },
-    receivedOrders: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Order'
-        }
-    ],
     online: {
         type: Boolean,
         default: false,

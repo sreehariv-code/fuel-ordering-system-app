@@ -8,9 +8,9 @@ import { generateToken } from '../utils/util.js'
 // @route POST /api/distributors/signup
 // @access public
 const registerDistributor = asyncHandler(async (req, res) => {
-    const { name, email, password, phoneNumber, stationDetails } = req.body;
+    const { name, email, password, phoneNumber, stationName, licenceNumber, address } = req.body;
 
-    if(!name || !email || !password || !phoneNumber || !stationDetails) {
+    if(!name || !email || !password || !phoneNumber || !stationName || !licenceNumber || !address) {
         res.status(400);
         throw new Error('Please enter all fields');
     }
@@ -32,7 +32,12 @@ const registerDistributor = asyncHandler(async (req, res) => {
         email, 
         phoneNumber,
         password: hashedPassword,
-        stationDetails,
+        stationDetails: {
+            stationName,
+            licenceNumber,
+            address,
+        }
+        
     });
 
     if(distributor) {
