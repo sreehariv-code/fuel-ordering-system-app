@@ -11,15 +11,17 @@ const Orders =({navigation}) => {
       await getOrders();
     })();
   }, []);
+
+
   
     return(
         <View>
              <View><Statusbar heading="ORDERS" condition="1" navigation={navigation}/></View>
              <ScrollView contentContainerStyle={styles.container}>
-             {console.log(orderList)}
+  
              {orderList.map((order,index)=> (
-               
-                <OrderBox navigation={navigation} userimg={require('../assets/girl.jpg') } key={index} name={order.name}  fuel={order.fuelType} litre={order.fuelAmount}  />
+             
+                <OrderBox navigation={navigation} userimg={require('../assets/girl.jpg') } key={index} name={order.userInfo.name}  fuel={order.fuelType} litre={order.fuelAmount}  />
              ))}
                 
              </ScrollView>            

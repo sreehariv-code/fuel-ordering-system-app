@@ -208,15 +208,14 @@ const DistributorContextProvider = ({ children }) => {
   const getOrders = async () => {
     try {
       const orderList = await axios.get(`${orderUrl}`, distributorConfig);
-      setOrderList(orderList.data);
+      
       for (let i = 0; i < orderList.data.length; i++) {
         const order = orderList.data[i];
         const userDetails = await axios.get(`${baseUrl}/${order.user}`, config);
-        console.log(userDetails.data);
+      
         orderList.data[i] = { ...order, userInfo: userDetails.data };
       }
       setOrderList(orderList.data)
-      console.log(orderList.data)
     } catch (error) {
       console.log(error);
     }

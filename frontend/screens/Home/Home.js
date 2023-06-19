@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView, View, StyleSheet } from "react-native";
 import * as Location from "expo-location";
-import Welcome from "../../components/Welcome/Welcome";
+
 
 import MapView from "../../components/MapView/MapView";
+import Welcome from "../../components/Welcome/Welcome";
 import { UserContext } from "../../context/userContext/context";
 import Button from "../../components/Button";
 
