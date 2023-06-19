@@ -27,11 +27,11 @@ let baseURL, distributorUrl, orderUrl;
 if (Platform.OS === "android") {
   baseURL = androidUrl + "users";
   distributorUrl = androidUrl + "distributors";
-  orderUrl = androidUrl + "orders/create-order";
+  orderUrl = androidUrl + "orders";
 } else {
   baseURL = iosUrl + "users";
   distributorUrl = iosUrl + "distributors";
-  orderUrl = iosUrl + "orders/create-order";
+  orderUrl = iosUrl + "orders";
 }
 
 const initialState = {
@@ -46,6 +46,7 @@ const UserContextProvider = ({ children }) => {
   const [userState, dispatch] = useReducer(userContextReducer, initialState);
   const [distributorsList, setDistributorList] = useState(null);
   const [filteredList, setFilteredList] = useState([]);
+  const [orderList, setOrderList] = useState([]);
   //   const baseURL = "http://192.168.43.164:3000/api/users";
 
   let [token, setToken] = useState("");
@@ -227,7 +228,7 @@ const UserContextProvider = ({ children }) => {
   ) => {
     try {
       const response = await axios.post(
-        `${orderUrl}`,
+        `${orderUrl}/create-order`,
         {
           fuelType: fuelName,
           fuelAmount: parseFloat(fuelAmount),
@@ -237,6 +238,16 @@ const UserContextProvider = ({ children }) => {
         orderConfig
       );
       console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //Get List of Orders
+  const getListOfOrders = async () => {
+    try {
+      const updatedList = await axios.get(`${orderUrl}`, orderConfig);
+      setOrderList(updatedList.data);
     } catch (error) {
       console.log(error);
     }
@@ -298,6 +309,8 @@ const UserContextProvider = ({ children }) => {
         updateUserLocation,
         filteredList,
         createOrder,
+        getListOfOrders,
+        orderList,
       }}
     >
       {children}
