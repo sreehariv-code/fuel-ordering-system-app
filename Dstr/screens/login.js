@@ -8,10 +8,6 @@ const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState(''); // used to define variables
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    // Handle login logic here
-    navigation.push('Dashboard')
-  };
 
   return (
     <View style={styles.container}>
@@ -39,7 +35,7 @@ const LoginScreen = ({navigation}) => {
         </TouchableOpacity>
         <View style={styles.footerContainer}>
           <Text style={styles.footerText}>Don't have an account?</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>navigation.navigate('SignUp')}>
             <Text style={styles.footerLink}>Sign up</Text>
           </TouchableOpacity>
         </View>

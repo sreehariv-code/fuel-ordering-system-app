@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native';
 import color from '../config/color';
 import LoginScreen from './login';
 import Statusbar from '../components/Statusbar';
+import { DistributorContext } from '../distributorContext/Context';
 
 const SignUpScreen = ({ navigation }) => {
   const [name, setName] = useState('');
@@ -13,12 +14,11 @@ const SignUpScreen = ({ navigation }) => {
   const [address, setAddress] = useState('');
   const [location, setLocation] = useState('');
   const [license, setLicense] = useState('');
+  const [stationName,setStationName] = useState('');
+  const {createDistributor,token}=useContext(DistributorContext)
+  
 
-  const handleRegister = () => {
-    // Handle registration logic here
-    navigation.navigate('Login'); // Navigate to login page after successful registration
-  };
-
+  console.log(token)
   return (
 
 
@@ -27,7 +27,7 @@ const SignUpScreen = ({ navigation }) => {
         <Statusbar heading="SIGNUP" condition="0"/>
     </View>
       
-      <View style={styles.formContainer}>
+      <ScrollView>
         <TextInput
           style={styles.input}
           placeholder="Name"
@@ -82,16 +82,27 @@ const SignUpScreen = ({ navigation }) => {
           value={license}
           onChangeText={setLicense}
         />
-        <TouchableOpacity style={styles.button} onPress={handleRegister}>
+        <TextInput
+          style={styles.input}
+          placeholder="Station Name"
+          value={stationName}
+          onChangeText={setStationName}
+        />
+       <View style={{alignItems:'center'}}>
+        <TouchableOpacity style={styles.button} 
+        onPress={()=>{
+          createDistributor(name, email, password, phone, stationName,license , address);
+        }}>
           <Text style={styles.buttonText}>REGISTER</Text>
         </TouchableOpacity>
+       </View>
         <View style={styles.footerContainer}>
           <Text style={styles.footerText}>Already have an account?</Text>
           <TouchableOpacity >
             <Text style={styles.footerLink}>Log in</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -106,8 +117,7 @@ const styles = StyleSheet.create({
   formContainer: { 
     flex:1,
     alignItems: 'center',
-    justifyContent: 'center',
-    
+    justifyContent: 'center',  
   
   },
   input: {

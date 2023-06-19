@@ -23,13 +23,13 @@ const androidUrl = `http://${manifest.debuggerHost
   .split(":")
   .shift()}:3000/api/`;
 const iosUrl = `http://localhost:3000/api/`;
-let baseURL, distributorUrl;
+let baseUrl, distributorUrl;
 if (Platform.OS === "android") {
-  baseURL = androidUrl + "users";
+  baseUrl = androidUrl + "users";
   distributorUrl = androidUrl + "distributors";
   orderUrl = androidUrl + "orders";
 } else {
-  baseURL = iosUrl + "users";
+  baseUrl = iosUrl + "users";
   distributorUrl = iosUrl + "distributors";
   orderUrl = iosUrl + "orders";
 }
@@ -146,12 +146,13 @@ const DistributorContextProvider = ({ children }) => {
       });
       setToken(token);
       const res = await axios.get(`${distributorUrl}/profile`, distributorConfig);
+
       dispatch({
         type: DISTRIBUTOR_PROFILE_SUCCESS,
         payload: res.data,
       });
     } catch (error) {
-      console.log(error);
+       console.log(error);
       dispatch({
         type: DISTRIBUTOR_PROFILE_FAIL,
       });
@@ -167,6 +168,7 @@ const DistributorContextProvider = ({ children }) => {
       setToken(token)
       const res = await axios.get(`${distributorUrl}/fuel-info`,distributorConfig)
       setFuelInfo(res.data.fuelTypes)
+      
     } catch (error) {
       console.log(error)
     }
@@ -201,14 +203,25 @@ const DistributorContextProvider = ({ children }) => {
     }
   };
 
-const getOrders = async() => {
-  try {
-    const orderList = await axios.get(`${orderUrl}`, distributorConfig)
-    setOrderList(orderList.data)
-  } catch(error) {
-    console.log(error);
-  }
-}
+  const getOrders = async () => {
+    try {
+      const orderList = await axios.get(`${orderUrl}`, distributorConfig);
+      setOrderList(orderList.data);
+      // console.log(orderList.data);
+  
+      for (const order of orderList.data) {
+        const userDetails = await axios.get(`${baseUrl}/${order.user}`, config);
+        console.log(userDetails.data);
+  
+        // Fetch the name from userDetails.data and do something with it
+        const userName = userDetails.data.name;
+        console.log(`User name: ${userName}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
 
   return (
     <DistributorContext.Provider

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import ToggleButton from '../components/ToggleButton';
 import color from '../config/color';
 import {
@@ -10,30 +10,47 @@ import {
   StatusBar
 } from 'react-native';
 import Statusbar from '../components/Statusbar';
+import { DistributorContext } from '../distributorContext/Context';
 
 const DstrProfile = ({navigation}) => {
+  const {logOutDistributor,getDistributorProfile,token,distributorState} = useContext(DistributorContext);
+  
+  
+useEffect(()=>{
+    (async()=>{
+    
+ await getDistributorProfile(token);
+  
+})();
+},[]);
+
+if(!distributorState.loggedDistributor){
+  return null
+}
+console.log(distributorState.loggedDistributor);
+
   return (
     <View style={styles.container}>
       <View style={{justifyContent:"center"}}>
           <Statusbar heading={"PROFILE"} condition={"1"} navigation={navigation}/>
           <View style={styles.buttonStyle}>
-            <ToggleButton />
+            <ToggleButton online={distributorState.loggedDistributor.online}/>
           </View>
       </View>
-      
+    
       <View style={styles.profileContainer}>
         <Image
           style={styles.profilePicture}
           source={{ uri: 'https://media.istockphoto.com/id/179014050/photo/portrait-of-a-young-adult.jpg?s=1024x1024&w=is&k=20&c=GeyRD9BFxLoZd-CXDIPovc5LHiUt_g47YOxKhrrBBe8=' }}
         />
         <View style={styles.profileInfo}>
-          <Text style={styles.profileName}>Sachin</Text>
-          <Text style={styles.profileContact}>123-456-7888</Text>
-          <Text style={styles.profileEmail}>sachi@email.com</Text>
+          <Text style={styles.profileName}>{distributorState.loggedDistributor.name}</Text>
+          <Text style={styles.profileContact}>{distributorState.loggedDistributor.phoneNumber}</Text>
+          <Text style={styles.profileEmail}>{distributorState.loggedDistributor.email}</Text>
           <View style={styles.box}> 
-            <Text style={styles.profileAddr}>LIC 12345678</Text>
-            <Text style={styles.profileAddr}>xyz fuels</Text>
-            <Text style={styles.profileAddr}>abc street</Text>
+            <Text style={styles.profileAddr}>{distributorState.loggedDistributor.stationDetails.licenceNumber}</Text>
+            <Text style={styles.profileAddr}>{distributorState.loggedDistributor.stationDetails.stationName}</Text>
+            <Text style={styles.profileAddr}>{distributorState.loggedDistributor.stationDetails.address}</Text>
           </View>
           
         </View>
@@ -54,7 +71,7 @@ const DstrProfile = ({navigation}) => {
           <Text style={styles.editButtonText}>Edit Profile</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.editButton}>
+      <TouchableOpacity style={styles.editButton} onPress={()=>{logOutDistributor()}}>
         <View style={{justifyContent:"center",alignItems:"center"}}>
           <Text style={styles.editButtonText}>Log Out</Text>
         </View>
