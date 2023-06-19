@@ -174,14 +174,16 @@ const DistributorContextProvider = ({ children }) => {
     }
   }
 
-  const updateFuelInfo = async(args) => {
+  const updateFuelInfo = async(fuelType, unitPrice, available) => {
     try {
-      const res = await axios.patch(`${distributorUrl}/update-fuel-info`, {args}, distributorConfig)
+      const res = await axios.patch(`${distributorUrl}/update-fuel-info`, {fuelType, unitPrice, available}, distributorConfig)
       setFuelInfo(res.data.fuelTypes)
     } catch(error) {
       console.log(error)
     }
   }
+
+  // const updateOrderStatus = async()
 
   const logOutDistributor = async () => {
     try {
@@ -207,16 +209,14 @@ const DistributorContextProvider = ({ children }) => {
     try {
       const orderList = await axios.get(`${orderUrl}`, distributorConfig);
       setOrderList(orderList.data);
-      // console.log(orderList.data);
-  
-      for (const order of orderList.data) {
+      for (let i = 0; i < orderList.data.length; i++) {
+        const order = orderList.data[i];
         const userDetails = await axios.get(`${baseUrl}/${order.user}`, config);
         console.log(userDetails.data);
-  
-        // Fetch the name from userDetails.data and do something with it
-        const userName = userDetails.data.name;
-        console.log(`User name: ${userName}`);
+        orderList.data[i] = { ...order, userInfo: userDetails.data };
       }
+      setOrderList(orderList.data)
+      console.log(orderList.data)
     } catch (error) {
       console.log(error);
     }
