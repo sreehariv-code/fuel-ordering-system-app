@@ -10,46 +10,37 @@ import {
 } from "react-native";
 import color from "../config/color";
 import PopupDriverList from "./PopUpDriverLIst";
-const OrderBox = ({ userimg, name, fuel, litre, distance, location,navigation }) => {
+const OrderBox = ({ userimg, name, fuel, litre,  navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
 
   return (
     <View style={styles.MainBox}>
-      <View
-        style={{
-          flexDirection: "row",
-          padding: 5,
-          paddingBottom: 0,
-          alignItems: "center",
-        }}
-      >
-        <View style={styles.proName}>
-          <Image source={userimg} style={styles.userImgSty} />
-          <Text style={styles.nameText}>{name}</Text>
-        </View>
-
-        <Text style={styles.allText}>
-          <View style={styles.sideText}>
-            <Text>FUEL:{fuel}</Text>
-            <Text>LITRE:{litre}L</Text>
-            <Text>LOCATION:{location}</Text>
-            <Text>DISTANCE:{distance}KM</Text>
+      <View style={{paddingVertical:15,paddingLeft:10}}>
+        <View style={{flexDirection: "row",justifyContent:"space-around"}}>
+          <View style={styles.proName}>
+            <Image source={userimg} style={styles.userImgSty} />
+            <Text style={styles.nameText}>Sanjay</Text>
           </View>
-        </Text>
+          <View style={styles.sideText}>
+              <Text>FUEL:{fuel}</Text>
+              <Text>LITRE:{litre}L</Text> 
+          </View>
+        </View>      
+          <View style={{ flexDirection: "row",}}>
+            <TouchableOpacity style={styles.button} onPress={()=> navigation.navigate('Dashboard')} > 
+            {/* modal not used */}
+              <Text style={styles.accreText}>ACCEPT</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.accreText}>REJECT</Text>
+            </TouchableOpacity>
+          </View>              
       </View>
-      <View style={{ flexDirection: "row", bottom: "5%", left: "38%" }}>
-        <TouchableOpacity style={styles.button} onPress={()=> navigation.navigate('Dashboard')} > 
-        {/* modal not used */}
-          <Text style={styles.accreText}>ACCEPT</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.accreText}>REJECT</Text>
-        </TouchableOpacity>
-      </View>
+      
+     
       <Modal
         visible={isModalVisible}
         animationType="slide"
@@ -64,31 +55,31 @@ const OrderBox = ({ userimg, name, fuel, litre, distance, location,navigation })
 
 const styles = StyleSheet.create({
   MainBox: {
-    // flex:1,
-    margin: 5,
+    flex:1,
+    marginBottom:30,
     backgroundColor: color.secondary,
-    height: 160,
-    borderRadius: 10,
-    justifyContent: "space-around",
-    alignItems: "center",
-    margin: 20,
+    maxHeight:170,
+    minHeight:80,
+    borderRadius: 20,
+    width:"75%"
+
   },
 
   userImgSty: {
     borderRadius: 100,
-    height: 90,
-    width: 90,
-    bottom: 1,
+    height: 80,
+    width: 80,
+    marginBottom:6,
   },
   proName: {
     flexDirection: "column",
-    alignItems: "center",
-    marginRight: 30,
-    marginTop: 50,
+    justifyContent:"center",
+    alignItems:"center"
   },
   sideText: {
     flexDirection: "column",
-    marginTop: 10,
+    alignItems:"center",
+    justifyContent:"center"
   },
   allText: {
     color: color.primary,
@@ -97,7 +88,7 @@ const styles = StyleSheet.create({
   },
   accreText: {
     color: color.secondary,
-    fontSize: 17,
+    fontSize: 12,
     fontWeight: "bold",
   },
 
@@ -105,12 +96,11 @@ const styles = StyleSheet.create({
     color: color.primary,
     fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 10,
   },
 
   button: {
     backgroundColor: color.primary,
-    width: "25%",
+    width: "40%",
     alignItems: "center",
     padding: 1.5,
     borderRadius: 5,
