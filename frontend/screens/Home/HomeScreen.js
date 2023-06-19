@@ -6,6 +6,7 @@ import { Platform } from "react-native";
 import Profile from "./Profile";
 import OrderPage from "./OrderPage";
 import Main from "../Main";
+import Order from "../Order";
 
 const HomeScreen = () => {
   const Tab = createBottomTabNavigator();
@@ -25,7 +26,7 @@ const HomeScreen = () => {
       />
       <Tab.Screen
         name="Orders"
-        component={OrderPage}
+        component={Order}
         options={{
           headerShadowVisible: false,
           headerShown: false,
