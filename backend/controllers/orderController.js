@@ -74,7 +74,8 @@ const placeOrder = asyncHandler( async(req, res) => {
 // @access private
 const updateOrderStatus = asyncHandler( async(req, res) => {
     const { id } = req.params
-    const order = await Order.findById(id)
+    const orderId = new mongoose.Types.ObjectId(id)
+    const order = await Order.findById(orderId)
     let updatedOrder
 
     if(req.role === 'user') {
@@ -85,7 +86,7 @@ const updateOrderStatus = asyncHandler( async(req, res) => {
         }
         
         if(order.status === 'Pending') {
-            updatedOrder = await Order.findByIdAndUpdate(id, {status: 'Cancelled'}, {new: true})
+            updatedOrder = await Order.findByIdAndUpdate(orderId, {status: 'Cancelled'}, {new: true})
         }
         else {
             res.status(400)
@@ -105,7 +106,7 @@ const updateOrderStatus = asyncHandler( async(req, res) => {
         }
 
         if(order.status === 'Pending') {
-            updatedOrder = await Order.findByIdAndUpdate(id, {status}, {new: true})
+            updatedOrder = await Order.findByIdAndUpdate(orderId, {status}, {new: true})
         }
         else {
             res.status(400)
@@ -127,7 +128,7 @@ const updateOrderStatus = asyncHandler( async(req, res) => {
         }
 
         if(order.status === 'Processing' || order.status === 'Collected') {
-            updatedOrder = await Order.findByIdAndUpdate(id, {status}, {new: true})
+            updatedOrder = await Order.findByIdAndUpdate(orderId, {status}, {new: true})
         }
         else {
             res.status(400)
