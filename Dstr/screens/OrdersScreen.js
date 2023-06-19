@@ -19,10 +19,20 @@ const Orders =({navigation}) => {
              <View><Statusbar heading="ORDERS" condition="1" navigation={navigation}/></View>
              <ScrollView contentContainerStyle={styles.container}>
   
-             {orderList.map((order,index)=> (
-             
-                <OrderBox navigation={navigation} userimg={require('../assets/girl.jpg') } key={index} name={order.userInfo.name}  fuel={order.fuelType} litre={order.fuelAmount}  />
-             ))}
+             {orderList.map((order, index) => (
+              order.status !== "Rejected" ? (
+                <OrderBox
+                  navigation={navigation}
+                  userimg={require('../assets/girl.jpg')}
+                  key={index}
+                  name={order.userInfo.name}
+                  fuel={order.fuelType}
+                  litre={order.fuelAmount}
+                  orderId={order._id}
+                  orderStatus={order.status}
+                />
+              ) : null
+            ))}
                 
              </ScrollView>            
         </View>

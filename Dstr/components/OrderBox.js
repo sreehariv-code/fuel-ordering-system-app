@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Image,
   StyleSheet,
@@ -10,11 +10,32 @@ import {
 } from "react-native";
 import color from "../config/color";
 import PopupDriverList from "./PopUpDriverLIst";
-const OrderBox = ({ userimg, name, fuel, litre,  navigation }) => {
+  import { DistributorContext } from "../distributorContext/Context";
+const OrderBox = ({ userimg, name, fuel, litre,  navigation, orderId, orderStatus }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
+  const [condition, setCondition] = useState(orderStatus);
+
+  const{updateOrderStatus} =useContext(DistributorContext);
+  
+
+  const handleAcceptPress = (status) => {
+    updateOrderStatus(orderId, status);
+    setCondition(status);
+    navigation.navigate('Orders');
+    
+  };
+  const handleRejectPress = (status) => {
+    updateOrderStatus(orderId, status);
+    setCondition(status);
+    navigation.navigate('Dashboard');
+    
+  };
+
+
+
 
   return (
     <View style={styles.MainBox}>
@@ -28,16 +49,26 @@ const OrderBox = ({ userimg, name, fuel, litre,  navigation }) => {
               <Text style={{fontSize:20}}>FUEL:{fuel}</Text>
               <Text style={{fontSize:20}}>LITRE:{litre}L</Text> 
           </View>
-        </View>      
-          <View style={{ flexDirection: "row",}}>
-            <TouchableOpacity style={styles.button} onPress={()=> navigation.navigate('Dashboard')} > 
-            {/* modal not used */}
+        </View> 
+        {condition === "Pending"  ? (
+          <View style={{ flexDirection: "row" }}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => handleAcceptPress("Processing")}
+            >
               <Text style={styles.accreText}>ACCEPT</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => handleRejectPress("Rejected")}>
               <Text style={styles.accreText}>REJECT</Text>
             </TouchableOpacity>
-          </View>              
+          </View>
+      ) : ( condition === "Processing" ? (
+        <View style={styles.button2} >
+            <Text style={styles.accreText}>Processing</Text>
+          </View>
+      ):(null) 
+          
+        )}
       </View>
       
      
@@ -106,6 +137,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 8,
     color: color.secondary,
+  },
+  button2: {
+    backgroundColor: color.primary,
+    width: "40%",
+    justifyContent:"center",
+    alignItems: "center",
+    color: color.secondary,
+    padding: 1.5,
+    borderRadius: 5,
+    margin: 8,
+    marginLeft:"30%"
   },
 });
 
