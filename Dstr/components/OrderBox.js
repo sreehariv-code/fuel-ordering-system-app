@@ -22,11 +22,11 @@ const OrderBox = ({ userimg, name, fuel, litre,  navigation }) => {
         <View style={{flexDirection: "row",justifyContent:"space-around"}}>
           <View style={styles.proName}>
             <Image source={userimg} style={styles.userImgSty} />
-            <Text style={styles.nameText}>Sanjay</Text>
+            <Text style={styles.nameText}>{name}</Text>
           </View>
           <View style={styles.sideText}>
-              <Text>FUEL:{fuel}</Text>
-              <Text>LITRE:{litre}L</Text> 
+              <Text style={{fontSize:20}}>FUEL:{fuel}</Text>
+              <Text style={{fontSize:20}}>LITRE:{litre}L</Text> 
           </View>
         </View>      
           <View style={{ flexDirection: "row",}}>
