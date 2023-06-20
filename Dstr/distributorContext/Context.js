@@ -198,7 +198,7 @@ const DistributorContextProvider = ({ children }) => {
       dispatch({
         type: DISTRIBUTOR_LOGOUT_SUCCESS,
       });
-      setToken(null);
+      setToken(null)
       AsyncStorage.setItem("@token", "");
     } catch (error) {
       console.log("Distributor Logout Failed: " + { error });

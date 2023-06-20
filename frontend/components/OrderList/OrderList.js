@@ -1,19 +1,30 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 export default function OrderList({
   fuelType,
   status,
   fuelPrice,
   distributorID,
+  navigation,
 }) {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate("Summary", {
+          fuelType,
+          status,
+          fuelPrice,
+          distributorID,
+        });
+      }}
+      style={styles.container}
+    >
       <Text style={styles.text}>Fuel Type: {fuelType}</Text>
       <Text style={styles.text}>Status: {status}</Text>
       <Text style={styles.text}>Paid Amount: {fuelPrice}</Text>
       <Text style={styles.text}>Distributor ID: {distributorID}</Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 

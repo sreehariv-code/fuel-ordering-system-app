@@ -44,7 +44,7 @@ export const UserContext = createContext(initialState);
 
 const UserContextProvider = ({ children }) => {
   const [userState, dispatch] = useReducer(userContextReducer, initialState);
-  const [distributorsList, setDistributorList] = useState(null);
+  const [distributorsList, setDistributorList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [orderList, setOrderList] = useState([]);
   //   const baseURL = "http://192.168.43.164:3000/api/users";
@@ -268,6 +268,13 @@ const UserContextProvider = ({ children }) => {
     getListOfDistributors();
   }, []);
 
+  //Get details of distributor by id
+  const getDistributorById = (id) => {
+    // Find the distributor with the matching _id
+    const distributor = distributorsList.find((item) => item._id === id);
+    return distributor;
+  };
+
   const memoizedDistributorsList = useMemo(
     () => distributorsList,
     [distributorsList]
@@ -311,6 +318,7 @@ const UserContextProvider = ({ children }) => {
         createOrder,
         getListOfOrders,
         orderList,
+        getDistributorById,
       }}
     >
       {children}

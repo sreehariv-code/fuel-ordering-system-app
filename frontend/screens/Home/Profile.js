@@ -1,8 +1,9 @@
-import { SafeAreaView, Text, Image, Button, View } from "react-native";
+import { SafeAreaView, Text, Image, View } from "react-native";
 import { UserContext } from "../../context/userContext/context";
 import { useContext, useEffect, useState } from "react";
 import { ProfileImg } from "../../constants/constants";
 
+import Button from "../../components/Button";
 import { Feather } from "@expo/vector-icons";
 
 const Profile = () => {
@@ -94,7 +95,8 @@ const Profile = () => {
         </View>
         <View>
           <Button
-            title="Log out"
+            color="red"
+            text="Log Out"
             onPress={() => {
               logOutUser();
             }}
