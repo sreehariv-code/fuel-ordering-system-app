@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import ToggleButton from '../components/ToggleButton';
+import color from '../config/color';
 import {
   View,
   Text,
@@ -7,55 +9,88 @@ import {
   TouchableOpacity,
   StatusBar
 } from 'react-native';
-import Statusbar from '../components/Statusbar'
-import color from '../config/color';
+import Statusbar from '../components/Statusbar';
 
 
-const DriverProfile = ({name,phone,mail,o_comp,rat}) => {
+const DriverProfile = ({navigation}) => {
+
   return (
-
-    <View >
-       <Statusbar heading={"DRIVER PROFILE"} condition={"1"}/>
+    <View style={styles.container}>
+      <View style={{justifyContent:"center"}}>
+          <Statusbar heading={"PROFILE"} condition={"1"} navigation={navigation}/>
+          <View style={styles.buttonStyle}>
+            <ToggleButton />
+          </View>
+      </View>
+    
       <View style={styles.profileContainer}>
         <Image
           style={styles.profilePicture}
           source={{ uri: 'https://media.istockphoto.com/id/179014050/photo/portrait-of-a-young-adult.jpg?s=1024x1024&w=is&k=20&c=GeyRD9BFxLoZd-CXDIPovc5LHiUt_g47YOxKhrrBBe8=' }}
         />
         <View style={styles.profileInfo}>
-          <Text style={styles.profileName}>{name}</Text>
-          <Text style={styles.profileContact}>{phone}</Text>
-          <Text style={styles.profileEmail}>{mail}</Text>
+          <Text style={styles.profileName}></Text>
+          <Text style={styles.profileContact}></Text>
+          <Text style={styles.profileEmail}></Text>
+          <View style={styles.box}> 
+            <Text style={styles.profileAddr}></Text>
+            <Text style={styles.profileAddr}></Text>
+            <Text style={styles.profileAddr}></Text>
+          </View>
+          
         </View>
       </View>
       <View style={styles.statsContainer}>
         <View style={styles.statBox}>
-          <Text style={styles.statNumber}>{o_comp}</Text>
+          <Text style={styles.statNumber}>20</Text>
           <Text style={styles.statLabel}>Orders Completed</Text>
         </View>
         <View style={[styles.statBox, { marginLeft: 20 }]}>
-          <Text style={styles.statNumber}>{rat}</Text>
-          <Text style={styles.statLabel}>Star Rating</Text>
+          <Text style={styles.statNumber}>4.5</Text>
+          <Text style={styles.statLabel}>Customer Rating</Text>
         </View>
       </View >
-      <View style={{justifyContent:"center",alignItems:"center"}}>
+      <View style={{justifyContent:"center",flexDirection:"row",paddingHorizontal:100}}>
       <TouchableOpacity style={styles.editButton}>
-        <View style={{justifyContent:"center",alignItems:"center"}}>
-        <Text style={styles.editButtonText}>Edit Profile</Text>
+        <View style={{justifyContent:"center",alignItems:"center",}}>
+          <Text style={styles.editButtonText}>Edit Profile</Text>
         </View>
-        
       </TouchableOpacity>
+      <TouchableOpacity style={styles.editButton} >
+        <View style={{justifyContent:"center",alignItems:"center"}}>
+          <Text style={styles.editButtonText}>Log Out</Text>
+        </View>
+        </TouchableOpacity>
       </View>
     </View>
-   
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFF',
+   
+  },
+  header: {
+    backgroundColor: '#000',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 50,
+    marginBottom: 20
+  },
+  headerText: {
+    color: '#FFF',
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
   profileContainer: {
     flexDirection: 'row',
-    justifyContent:"center",
     alignItems: 'center',
-    padding:30
+    margin:15,
+    borderRadius:5,
+    borderWidth:1.5,
+    borderColor:color.primary,
   },
   profilePicture: {
     width: 100,
@@ -65,7 +100,8 @@ const styles = StyleSheet.create({
   },
   profileInfo: {
     flexDirection: 'column',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingBottom:6,
   },
   profileName: {
     fontSize: 24,
@@ -74,15 +110,23 @@ const styles = StyleSheet.create({
   profileContact: {
     fontSize: 18
   },
+  buttonStyle: {
+    position: 'absolute',
+    right: 10,
+  },
   profileEmail: {
     fontSize: 18
   },
   statsContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 20,
     width: '100%',
     justifyContent:"center",
     alignItems:"center"
+  },
+  profileAddr:{
+    fontSize:15,
   },
   statBox: {
     alignItems: 'center'
@@ -95,14 +139,25 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   editButton: {
-    backgroundColor:color.primary,
+    backgroundColor: color.primary,
     borderRadius: 5,
-    width:170,
+    width:"90%",
+    height:"30%",
     justifyContent :"center",
-    alignContent:'center'
+    alignContent:'center',
+    marginHorizontal:15,
+  },
+
+  box:{
+    borderRadius:5,
+    borderColor:color.primary,
+    borderWidth:1.5,
+    borderStyle:"dotted",
+    padding:5,
+    marginTop:5,
   },
   editButtonText: {
-    color: color.secondary,
+    color: '#FFF',
     fontSize: 18,
     fontWeight: 'bold',
     
