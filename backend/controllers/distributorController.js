@@ -240,6 +240,12 @@ const getNearbyDistributors = asyncHandler(async (req, res) => {
     res.status(200).json(sortedDistributors)
 })
 
+const getDistributorById = asyncHandler(async (req, res) => {
+    const {id} = req.params
+    const distributor = await Distributor.findById(id).select("-password")
+    res.status(200).json(distributor)
+})
+
 export {
     registerDistributor,
     loginDistributor,
@@ -249,5 +255,6 @@ export {
     updateFuelInfo,
     logoutDistributor,
     getDistributors,
+    getDistributorById,
     getNearbyDistributors,
 }

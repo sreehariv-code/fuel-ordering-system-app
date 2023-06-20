@@ -7,6 +7,7 @@ import {
     updateFuelInfo,
     logoutDistributor,
     getDistributors,
+    getDistributorById,
     getNearbyDistributors,
     updateDistributorProfile,
 } from '../controllers/distributorController.js'
@@ -15,6 +16,7 @@ import { isAuthenticatedUser, isAuthorizedUser } from '../middleware/authMiddlew
 const router = express.Router()
 
 router.get('/', getDistributors)
+router.get('/distributor/:id', getDistributorById)
 router.get('/range/:radius', isAuthenticatedUser, isAuthorizedUser(['user']), getNearbyDistributors)
 router.post('/signup', registerDistributor)
 router.post('/login', loginDistributor)
