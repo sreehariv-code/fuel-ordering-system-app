@@ -140,7 +140,6 @@ const UserContextProvider = ({ children }) => {
       //   email: userData.data.email,
       // });
     } catch (error) {
-      console.log(error);
       dispatch({
         type: USER_PROFILE_FAIL,
       });
