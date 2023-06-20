@@ -226,6 +226,14 @@ const DistributorContextProvider = ({ children }) => {
     }
   };
   
+  const assignDriver = async (id) => {
+    try {
+      const updatedOrder = await axios.patch(`${orderUrl}/assign-driver/${id}`, config)
+      console.log(updatedOrder)
+    } catch(error) {
+      console.log(error)
+    }
+  }
 
   return (
     <DistributorContext.Provider
@@ -240,6 +248,7 @@ const DistributorContextProvider = ({ children }) => {
         getDistributorProfile,
         getFuelInfo,
         updateFuelInfo,
+        assignDriver,
         updateOrderStatus,
         logOutDistributor,
         createDistributor,
