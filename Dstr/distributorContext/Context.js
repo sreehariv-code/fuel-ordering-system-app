@@ -229,7 +229,7 @@ const DistributorContextProvider = ({ children }) => {
   const assignDriver = async (id) => {
     try {
       const updatedOrder = await axios.patch(`${orderUrl}/assign-driver/${id}`, config)
-      console.log(updatedOrder)
+      console.log(updatedOrder.data)
     } catch(error) {
       console.log(error)
     }

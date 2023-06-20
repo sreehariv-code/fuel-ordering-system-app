@@ -18,11 +18,12 @@ const OrderBox = ({ userimg, name, fuel, litre,  navigation, orderId, orderStatu
   };
   const [condition, setCondition] = useState(orderStatus);
 
-  const{updateOrderStatus} =useContext(DistributorContext);
+  const{updateOrderStatus,assignDriver} =useContext(DistributorContext);
   
 
   const handleAcceptPress = (status) => {
     updateOrderStatus(orderId, status);
+    assignDriver(orderId);
     setCondition(status);
     navigation.navigate('Orders');
     

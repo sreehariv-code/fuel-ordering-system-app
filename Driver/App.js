@@ -1,14 +1,10 @@
 import { Platform, StatusBar, StyleSheet, Text, View } from "react-native";
-import Dashboard from "./screens/Dashboard";
-import { NavigationContainer } from "@react-navigation/native";
+import Routes from "./Routes/routes";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <NavigationContainer>
-      <Dashboard />
-      </NavigationContainer>
-      
+      <Routes/>
     </View>
   );
 }
