@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import color from '../config/color';
 import Statusbar from '../components/Statusbar';
+import { DriverContext } from '../context/Context';
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState(''); // used to define variables
   const [password, setPassword] = useState('');
-
-  const handleLogin = () => {
-    navigation.navigate('Dashboard')
-  };
+  const{loginDriver,token} = useContext(DriverContext);
+  
 
   return (
     <View style={styles.container}>
@@ -32,7 +31,7 @@ const LoginScreen = ({navigation}) => {
           onChangeText={setPassword}
           secureTextEntry={true}
         />
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <TouchableOpacity style={styles.button} onPress={() => {loginDriver(email,password)}}>
           <Text style={styles.buttonText}>LOG IN</Text>
         </TouchableOpacity>
         <View style={styles.footerContainer}>

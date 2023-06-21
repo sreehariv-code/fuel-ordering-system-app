@@ -10,9 +10,24 @@ import {
   StatusBar
 } from 'react-native';
 import Statusbar from '../components/Statusbar';
-
+import { DriverContext } from '../context/Context';
 
 const DriverProfile = ({navigation}) => {
+       const {logoutDriver,token,getDriverProfile, driverState} = useContext(DriverContext);
+ 
+  useEffect(()=>{
+    (async()=>{
+    
+ await getDriverProfile(token);
+  
+})();
+},[]);
+
+if(!driverState.loggedDriver){
+  return null
+}
+console.log(driverState.loggedDriver);
+
 
   return (
     <View style={styles.container}>
@@ -29,13 +44,11 @@ const DriverProfile = ({navigation}) => {
           source={{ uri: 'https://media.istockphoto.com/id/179014050/photo/portrait-of-a-young-adult.jpg?s=1024x1024&w=is&k=20&c=GeyRD9BFxLoZd-CXDIPovc5LHiUt_g47YOxKhrrBBe8=' }}
         />
         <View style={styles.profileInfo}>
-          <Text style={styles.profileName}></Text>
-          <Text style={styles.profileContact}></Text>
-          <Text style={styles.profileEmail}></Text>
+          <Text style={styles.profileName}>{driverState.loggedDriver.name}</Text>
+          <Text style={styles.profileContact}>{driverState.loggedDriver.phoneNumber}</Text>
+          <Text style={styles.profileEmail}>{driverState.loggedDriver.email}</Text>
           <View style={styles.box}> 
-            <Text style={styles.profileAddr}></Text>
-            <Text style={styles.profileAddr}></Text>
-            <Text style={styles.profileAddr}></Text>
+            <Text style={styles.profileAddr}>{driverState.loggedDriver.licence}</Text>
           </View>
           
         </View>
@@ -56,8 +69,8 @@ const DriverProfile = ({navigation}) => {
           <Text style={styles.editButtonText}>Edit Profile</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.editButton} >
-        <View style={{justifyContent:"center",alignItems:"center"}}>
+      <TouchableOpacity style={styles.editButton} onPress={()=>{logoutDriver()}}>
+        <View style={{justifyContent:"center",alignItems:"center"}} >
           <Text style={styles.editButtonText}>Log Out</Text>
         </View>
         </TouchableOpacity>

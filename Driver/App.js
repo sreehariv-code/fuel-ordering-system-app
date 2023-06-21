@@ -1,10 +1,13 @@
 import { Platform, StatusBar, StyleSheet, Text, View } from "react-native";
 import Routes from "./Routes/routes";
+import DriverContextProvider from "./context/Context";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Routes/>
+      <DriverContextProvider>
+        <Routes/>
+      </DriverContextProvider>
     </View>
   );
 }
