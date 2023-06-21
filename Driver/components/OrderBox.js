@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import color from "../config/color";
+import { TouchableOpacity } from "react-native";
+import { DriverContext } from "../context/Context";
 
-const OrderBox = ({ userimg, name, fuel, litre, distance, location }) => {
+
+const OrderBox = ({navigation, userimg, name, fuel, litre, distance, location,phone }) => {
+  const {orderList,updateOrderStatus} =useContext(DriverContext);
+  
   return (
     <View style={styles.MainBox}>
       <View
@@ -22,8 +27,17 @@ const OrderBox = ({ userimg, name, fuel, litre, distance, location }) => {
           <View style={styles.sideText}>
             <Text>FUEL:{fuel}</Text>
             <Text>LITRE:{litre}L</Text>
-            <Text>LOCATION:{location}</Text>
             <Text>DISTANCE:{distance}KM</Text>
+            <Text>DISTANCE:{phone}</Text>
+            {(orderList[0].status === "Processing")?
+            (<TouchableOpacity style={styles.button} onPress={()=>{updateOrderStatus(orderList[0]._id,"Delivered");
+            orderList[0].status="Delivered";
+            }} >
+              <Text style={styles.accreText}>COMPLETE</Text>
+            </TouchableOpacity>) 
+            :(<TouchableOpacity style={styles.button}  >
+              <Text style={styles.accreText}>COMPLETED</Text>
+            </TouchableOpacity>)}
           </View>
         </Text>
       </View>

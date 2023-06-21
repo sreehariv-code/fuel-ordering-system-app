@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import color from "../config/color";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -9,8 +9,17 @@ import PassBookScreen from "./PassBookScreen";
 import Statusbar from "../components/Statusbar";
 import {View} from 'react-native'
 const Tab = createBottomTabNavigator();
-
+import { DriverContext } from "../context/Context";
 const Dashboard = (navigation) => {
+  const {getOrders,token,orderList,updateOrderStatus} =useContext(DriverContext);
+  
+  useEffect(()=>{
+    (async()=>{
+    
+ await getOrders(token);
+  
+})();
+},[]);
   return (
     <View style={{flex:1}}>
       <Tab.Navigator
@@ -36,8 +45,9 @@ const Dashboard = (navigation) => {
           }}
         />
         <Tab.Screen
-          name="Dashboard"
+          name="DashboardContent"
           component={DashboardContent}
+          
           options={{
             headerShown: false,
             tabBarIcon: ({ color, size }) => (

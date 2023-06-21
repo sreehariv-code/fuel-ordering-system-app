@@ -44,7 +44,7 @@ const initialState = {
 
 export const DriverContext = createContext(initialState);
 
-const DistributorContextProvider = ({ children }) => {
+const DriverContextProvider = ({ children }) => {
     const [driverState, dispatch] = useReducer(driverContextReducer, initialState);
     const [orderList, setOrderList] = useState([]);
     let [token, setToken] = useState("");
@@ -52,6 +52,7 @@ const DistributorContextProvider = ({ children }) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
+    
     },
   };
   const driverConfig = {
@@ -174,6 +175,7 @@ const DistributorContextProvider = ({ children }) => {
   }
 
   const logoutDriver = async () => {
+    console.log("logged Out")
     try {
       const res = axios.get(`${driverUrl}/logout`, driverConfig);
       dispatch({
@@ -181,6 +183,7 @@ const DistributorContextProvider = ({ children }) => {
       });
       setToken(null)
       AsyncStorage.setItem("@token", "");
+      console.log("token")
     } catch (error) {
       console.log("Driver Logout Failed: " + { error });
       dispatch({
@@ -209,7 +212,7 @@ const DistributorContextProvider = ({ children }) => {
   };
 
   return (
-    <DistributorContext.Provider
+    <DriverContext.Provider
       value={{
         driverState,
         token,
@@ -224,8 +227,8 @@ const DistributorContextProvider = ({ children }) => {
       }}
     >
       {children}
-    </DistributorContext.Provider>
+    </DriverContext.Provider>
   );
 }
 
-export default DistributorContextProvider;
+export default DriverContextProvider;

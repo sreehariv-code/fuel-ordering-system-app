@@ -63,9 +63,9 @@ const OrderBox = ({ userimg, name, fuel, litre,  navigation, orderId, orderStatu
               <Text style={styles.accreText}>REJECT</Text>
             </TouchableOpacity>
           </View>
-      ) : ( condition === "Processing" ? (
+      ) : ( condition === "Processing" || condition === "Delivered" ? (
         <View style={styles.button2} >
-            <Text style={styles.accreText}>Processing</Text>
+            <Text style={styles.accreText}>{condition}</Text>
           </View>
       ):(null) 
           
